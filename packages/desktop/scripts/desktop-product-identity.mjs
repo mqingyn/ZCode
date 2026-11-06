@@ -7,19 +7,19 @@ export const ZCODE_PREVIEW_IDENTITY_ENV = "ZCODE_PREVIEW_IDENTITY";
 
 const PRODUCTION_IDENTITY = Object.freeze({
   flavor: "production",
-  appId: "dev.zcode.app",
-  productName: "ZCode",
-  linuxExecutableName: "zcode",
-  linuxPackageName: "zcode",
+  appId: "dev.onyx.app",
+  productName: "Onyx",
+  linuxExecutableName: "onyx",
+  linuxPackageName: "onyx",
   cuaHelperInstallVariant: null,
 });
 
 const PREVIEW_IDENTITY = Object.freeze({
   flavor: "preview",
-  appId: "dev.zcode.app.preview",
-  productName: "ZCode Preview",
-  linuxExecutableName: "zcode-preview",
-  linuxPackageName: "zcode-preview",
+  appId: "dev.onyx.app.preview",
+  productName: "Onyx Preview",
+  linuxExecutableName: "onyx-preview",
+  linuxPackageName: "onyx-preview",
   cuaHelperInstallVariant: "preview",
 });
 
@@ -69,7 +69,7 @@ export function resolveDesktopProductIdentity(env = process.env) {
 
 /**
  * 产物文件名后缀标记的是后端环境而不是身份：`_TEST` 只出现在测试后端的安装包上。
- * 生产后端的 Preview 包靠 productName（`ZCode Preview-<version>-...`）与正式包区分。
+ * 生产后端的 Preview 包靠 productName（`Onyx Preview-<version>-...`）与正式包区分。
  */
 export function resolveDesktopArtifactSuffix(env = process.env) {
   return normalizeDesktopZCodeEnv(env) === "test" ? "_TEST" : "";
