@@ -46,6 +46,26 @@ export function buildPersonalCodingPlanUsageSource({
   };
 }
 
+/**
+ * Onyx：为自定义 provider（API key 直连 bigmodel.cn / api.z.ai）构建用量来源。
+ * accountAccess 传 null 占位——服务层对非 Coding Plan provider 走 resolveApiAuthorization 路径。
+ */
+export function buildCustomProviderUsageSource({
+  providerId,
+  label,
+}: {
+  providerId: string;
+  label?: string | null;
+}): CodingPlanUsageSource {
+  const normalizedLabel = label?.trim();
+  return {
+    id: `custom:${providerId}` as SidebarUsageCodingPlanSourceId,
+    providerId: providerId as SidebarUsageCodingPlanProviderId,
+    accountAccess: null as unknown as ZCodeAccountAccess,
+    label: normalizedLabel || providerId,
+  };
+}
+
 export type CurrentSidebarCodingPlanUsageSource =
   | {
       audience: "individual";

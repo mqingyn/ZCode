@@ -1146,7 +1146,7 @@ export { isOfficialCuaPluginEnabledForWorkspace };
 
 export function hasGlobalCliZCodeCuaServer(env: NodeJS.ProcessEnv = process.env): boolean {
   const home = env.HOME?.trim() || homedir();
-  const configPath = join(home, ".zcode", "cli", "config.json");
+  const configPath = join(home, ".onyx", "cli", "config.json");
   let parsed: unknown;
   try {
     parsed = JSON.parse(readFileSync(configPath, "utf8"));
@@ -2760,6 +2760,29 @@ export function createLocalServices(options: {
         credentialService,
         zcodeAgentService,
         officialMcpCredentialSource,
+        // Onyx：为自定义 provider（API key 直连 bigmodel.cn / api.z.ai）提供用量查询授权。
+        resolveApiAuthorization: async ({ preferredProviderId }) => {
+          if (!preferredProviderId) return null;
+          const view = await providerRuntime.providerSettings.getView();
+          const provider = view.providers.find((p) => p.providerId === preferredProviderId);
+          if (!provider?.enabled || provider.effectiveConfig.access?.type !== "api-key")
+            return null;
+          const baseUrl = provider.effectiveConfig.api?.baseUrl ?? "";
+          const apiKey = provider.effectiveConfig.access.apiKey?.trim();
+          if (!apiKey) return null;
+          const isZai = baseUrl.includes("api.z.ai");
+          const isBigmodel = baseUrl.includes("bigmodel.cn");
+          if (!isZai && !isBigmodel) return null;
+          const quotaOrigin = isZai ? "https://api.z.ai" : "https://bigmodel.cn";
+          return {
+            authorization: /^Bearer\s/i.test(apiKey) ? apiKey : `Bearer ${apiKey}`,
+            quotaUrl: `${quotaOrigin}/api/monitor/usage/quota/limit`,
+            provider: {
+              id: provider.providerId,
+              name: provider.providerName ?? provider.providerId,
+            },
+          };
+        },
       }),
     )
     .register(ICodingPlanSubscriptionService, codingPlanSubscriptionService)

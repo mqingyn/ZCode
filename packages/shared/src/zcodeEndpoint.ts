@@ -1,7 +1,10 @@
 import type { ZCodeEnv } from "./env.js";
 
-export const DEFAULT_ZCODE_ENDPOINT_ORIGIN = "https://zcode.z.ai";
-export const TEST_ZCODE_ENDPOINT_ORIGIN = "https://zcode.z.ai";
+// Onyx 个人构建：官方控制面（网关/额度重置/分享/反馈/Bots/relay/官方市场在线目录）
+// 全部指向本机死端口，任何请求立即失败并静默降级；模型推理 API（bigmodel.cn / api.z.ai
+// + 自配 key）不受影响。恢复官方能力时改回 https://zcode.z.ai 并参见 ONYX.md。
+export const DEFAULT_ZCODE_ENDPOINT_ORIGIN = "http://127.0.0.1:9";
+export const TEST_ZCODE_ENDPOINT_ORIGIN = "http://127.0.0.1:9";
 export const CODING_PLAN_LOCAL_WEBVIEW_ORIGIN = "http://localhost:3000";
 export const DEFAULT_BIGMODEL_API_ORIGIN = "https://bigmodel.cn";
 export const TEST_BIGMODEL_API_ORIGIN = "https://bigmodel.cn";
@@ -11,7 +14,8 @@ export const DEFAULT_ZAI_BUSINESS_BASE_URL = "https://api.z.ai";
 export const TEST_ZAI_BUSINESS_BASE_URL = "https://api.z.ai";
 export const DEFAULT_ZAI_OAUTH_CLIENT_ID = "client_P8X5CMWmlaRO9gyO-KSqtg";
 export const TEST_ZAI_OAUTH_CLIENT_ID = "client_P8X5CMWmlaRO9gyO-KSqtg";
-export const DEFAULT_WEB_REMOTE_CONTROL_RELAY_WS_URL = "wss://zcode.z.ai/api/v1/remote/ws2";
+// Onyx 个人构建：远控 relay 同随控制面指向死端口（不使用官方远控）。
+export const DEFAULT_WEB_REMOTE_CONTROL_RELAY_WS_URL = "ws://127.0.0.1:9/api/v1/remote/ws2";
 export const WEB_REMOTE_CONTROL_V4_MIN_APP_VERSION = "3.4.0";
 
 export interface BuildZCodeEndpointUrlsOptions {

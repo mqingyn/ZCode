@@ -81,7 +81,7 @@ import {
   buildCodingPlanUsageSources,
   type CodingPlanUsageSource,
 } from "@/settings/usage-stats/CodingPlanUsagePanel.js";
-import { buildPersonalCodingPlanUsageSource } from "@/lib/codingPlanUsageSources.js";
+import { buildPersonalCodingPlanUsageSource, buildCustomProviderUsageSource } from "@/lib/codingPlanUsageSources.js";
 import { SubagentsSection } from "@/settings/SubagentsSection.js";
 import { AutomationsSection } from "@/settings/AutomationsSection.js";
 import { SegmentPill } from "@/settings/PluginStoreListView.js";
@@ -566,11 +566,26 @@ export function SettingsPage({
         }),
       );
     }
+    // Onyx：扫描自定义 provider，endpoint 指向 bigmodel.cn / api.z.ai 且有 API key 的纳入用量查询。
+    for (const provider of usageProviderSettingsView?.providers ?? []) {
+      if (!provider.enabled || provider.effectiveConfig.access?.type !== "api-key") continue;
+      const baseUrl = provider.effectiveConfig.api?.baseUrl ?? "";
+      if (!baseUrl.includes("bigmodel.cn") && !baseUrl.includes("api.z.ai")) continue;
+      const apiKey = provider.effectiveConfig.access.apiKey?.trim();
+      if (!apiKey) continue;
+      sources.push(
+        buildCustomProviderUsageSource({
+          providerId: provider.providerId,
+          label: provider.providerName,
+        }),
+      );
+    }
     return sources;
   }, [
     usageBigmodelEntitlement.snapshot,
     usageBigmodelProvider,
     usageBigmodelProviderAccess,
+    usageProviderSettingsView,
     usageZaiEntitlement.snapshot,
     usageZaiProvider,
     usageZaiProviderAccess,

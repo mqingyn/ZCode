@@ -8,9 +8,11 @@ export type SidebarUsageCodingPlanProviderId =
   | typeof BUILTIN_MODEL_PROVIDER_IDS.zaiTeamCodingPlan
   | typeof BUILTIN_MODEL_PROVIDER_IDS.bigmodelIndividualCodingPlan
   | typeof BUILTIN_MODEL_PROVIDER_IDS.bigmodelTeamCodingPlan;
+// Onyx：自定义 provider（API key 直连 bigmodel.cn / api.z.ai）也可作为用量来源。
 export type SidebarUsageCodingPlanSourceId =
   | SidebarUsageCodingPlanProviderId
-  | `team:${string}`;
+  | `team:${string}`
+  | `custom:${string}`;
 
 const SIDEBAR_USAGE_CODING_PLAN_PROVIDER_STORAGE_KEY =
   "zcode:sidebar-usage-coding-plan-provider";
@@ -35,7 +37,8 @@ function isSidebarUsageCodingPlanSourceId(
 ): sourceId is SidebarUsageCodingPlanSourceId {
   return (
     isSidebarUsageCodingPlanProviderId(sourceId) ||
-    sourceId?.startsWith("team:") === true
+    sourceId?.startsWith("team:") === true ||
+    sourceId?.startsWith("custom:") === true
   );
 }
 

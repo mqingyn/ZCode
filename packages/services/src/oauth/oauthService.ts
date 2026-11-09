@@ -117,6 +117,9 @@ function resolveInactiveOAuthProvider(provider: OAuthProviderId): OAuthProviderI
  *
  * 在 host process 中运行，管理 OAuth 流程的完整生命周期。
  */
+/** Onyx 个人构建：官方账号登录总开关，见 ONYX.md「官方能力剥离」。 */
+const ONYX_ACCOUNT_LOGIN_DISABLED = true;
+
 export class OAuthService implements IOAuthService {
   private readonly sessionChanges = new Emitter<OAuthSessionState>();
   readonly onDidChangeSession = this.sessionChanges.event;
@@ -860,6 +863,10 @@ export class OAuthService implements IOAuthService {
   }
 
   private async startOAuthInternal(provider: OAuthProviderId): Promise<OAuthStartResponse> {
+    // Onyx 个人构建：官方账号登录已剥离，所有 OAuth 发起在此熔断，应用保持全局未登录态。
+    if (ONYX_ACCOUNT_LOGIN_DISABLED) {
+      throw new Error("Onyx personal build: account login is disabled");
+    }
     const adapter = this.getEnabledAdapter(provider);
 
     // 同窗口快速连续点击不同 provider 时，旧 state 如果不先取消，
