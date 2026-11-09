@@ -61,11 +61,11 @@ export function ZCodeStartupLogo({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="118"
-      height="100"
+      width="18"
+      height="18"
       fill="none"
-      viewBox="0 0 256 218"
-      className={cn("shrink-0 text-current", className)}
+      viewBox="0 0 18 18"
+      className={cn("shrink-0", className)}
       aria-hidden="true"
       focusable="false"
     >
@@ -78,15 +78,28 @@ export function ZCodeStartupLogo({
           values="1;0.4;1"
         />
       ) : null}
-      <path
-        fill="currentColor"
-        d="M134.4 0.130152L116.48 25.6022C113.665 29.5699 109.054 32.0019 104.064 32.0019H6.3999V0C6.3999 0.130149 134.4 0.130152 134.4 0.130152Z"
-      />
-      <path fill="currentColor" d="M256 0.130127L102.401 217.732H0L153.599 0.130127H256Z" />
-      <path
-        fill="currentColor"
-        d="M121.601 217.732L139.65 192.134C142.465 188.166 147.076 185.734 152.067 185.734H249.604V217.736H121.601V217.732Z"
-      />
+      {/* Onyx：钛金属 O 环 + mask 透明切口（透出徽标壳渐变底）。 */}
+      <defs>
+        <linearGradient id="onyxTiStartup" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f5f6f8" />
+          <stop offset="0.28" stop-color="#d6d8de" />
+          <stop offset="0.46" stop-color="#eef0f3" />
+          <stop offset="0.62" stop-color="#a2a4ae" />
+          <stop offset="0.82" stop-color="#6b6d78" />
+          <stop offset="1" stop-color="#46474f" />
+        </linearGradient>
+        <mask id="onyxCutStartup">
+          <rect width="18" height="18" fill="white" />
+          <rect x="0" y="8.62" width="18" height="0.76" fill="black" />
+        </mask>
+      </defs>
+      <g mask="url(#onyxCutStartup)">
+        <path
+          fill="url(#onyxTiStartup)"
+          fillRule="evenodd"
+          d="M 9 3.55 A 5.45 5.45 0 1 0 9 14.45 A 5.45 5.45 0 1 0 9 3.55 Z M 9 5.86 A 3.14 3.14 0 1 1 9 12.14 A 3.14 3.14 0 1 1 9 5.86 Z"
+        />
+      </g>
     </svg>
   );
 }
