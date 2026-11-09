@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+  <defs>
+    <linearGradient id="onyxTi" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f5f6f8"/>
+      <stop offset="0.28" stop-color="#d6d8de"/>
+      <stop offset="0.46" stop-color="#eef0f3"/>
+      <stop offset="0.62" stop-color="#a2a4ae"/>
+      <stop offset="0.82" stop-color="#6b6d78"/>
+      <stop offset="1" stop-color="#46474f"/>
+    </linearGradient>
+  </defs>
+  <!-- 黑色圆角方块底 -->
+  <rect x="0.5" y="0.5" width="17" height="17" rx="3.7" fill="#111111"/>
+  <!-- 钛金属 O 环 -->
+  <path fill="url(#onyxTi)" fill-rule="evenodd" d="
+    M 9 3.55 A 5.45 5.45 0 1 0 9 14.45 A 5.45 5.45 0 1 0 9 3.55 Z
+    M 9 5.86 A 3.14 3.14 0 1 1 9 12.14 A 3.14 3.14 0 1 1 9 5.86 Z
+  "/>
+  <!-- 水平切口（缟玛瑙层带） -->
+  <rect x="2.8" y="8.62" width="12.4" height="0.76" fill="#111111"/>
+</svg>

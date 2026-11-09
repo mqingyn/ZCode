@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <!-- 钛金属渐变：左上冷高光 → 中段银亮 → 右下暗钛 -->
+    <linearGradient id="ti" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"    stop-color="#f5f6f8"/>
+      <stop offset="0.28" stop-color="#d6d8de"/>
+      <stop offset="0.46" stop-color="#eef0f3"/>
+      <stop offset="0.62" stop-color="#a2a4ae"/>
+      <stop offset="0.82" stop-color="#6b6d78"/>
+      <stop offset="1"    stop-color="#46474f"/>
+    </linearGradient>
+    <!-- 内圈暗部：模拟环内壁的倒角阴影 -->
+    <linearGradient id="tiInner" x1="1" y1="1" x2="0" y2="0">
+      <stop offset="0"   stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1"   stop-color="#000000" stop-opacity="0.25"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="220" fill="#111111"/>
+  <!-- 钛金属 O 环 -->
+  <path fill="url(#ti)" fill-rule="evenodd" d="
+    M 512 177 A 335 335 0 1 0 512 847 A 335 335 0 1 0 512 177 Z
+    M 512 327 A 185 185 0 1 1 512 697 A 185 185 0 1 1 512 327 Z
+  "/>
+  <!-- 环面光泽层：提亮受光面、压暗暗部，强化金属立体感 -->
+  <path fill="url(#tiInner)" fill-rule="evenodd" d="
+    M 512 177 A 335 335 0 1 0 512 847 A 335 335 0 1 0 512 177 Z
+    M 512 327 A 185 185 0 1 1 512 697 A 185 185 0 1 1 512 327 Z
+  "/>
+  <!-- 水平切口（缟玛瑙层带） -->
+  <rect x="140" y="489" width="744" height="46" fill="#111111"/>
+</svg>

@@ -52,20 +52,31 @@ cp -a ~/.zcode/v2 ~/.onyx/ && rm -f ~/.onyx/v2/credentials.json
 
 **触发条件**：自定义 provider 满足 `enabled=true` + `access.type="api-key"` + `api.baseUrl` 包含 `bigmodel.cn` 或 `api.z.ai` + 有 `apiKey`。
 
-## 五、构建期可选能力：默认全关，无需处理
+## 五、图标与 Logo（本分支新增）
 
-## 五、构建期可选能力：默认全关，无需处理
+设计：黑色圆角方块 + 钛金属渐变 "O" 环 + 水平切口（缟玛瑙层带）。**主源文件：`public/logo/onyx-master.svg`（已入仓库）**；重新生成全尺寸：`qlmanage -t -s <size> -o <outdir> public/logo/onyx-master.svg`（macOS），`icon.icns` 用 iconutil 从 iconset 构建，`icon.ico` 为 16–256 七档 PNG 打包。
+
+| 覆盖点 | 内容 |
+| --- | --- |
+| `public/logo/icons/` | 9 档 PNG（16–1024）+ `icon.icns` + `icon.ico` 全部替换 |
+| `packages/desktop/build/` | `icon.{icns,ico,png}`、`icon_installer.{icns,ico,png}`、`icon_windows.png`、`icons/` 9 档 PNG 全部替换 |
+| `packages/ui/src/assets/onyx-logo.svg` | 新增 Onyx 应用 logo（UI 内使用） |
+| `packages/ui/src/App.tsx`、`packages/ui/src/components/mobile-ui/ZCodeAppLogo.tsx` | 应用 logo 引用从 `logo-zai.svg` 切换到 `onyx-logo.svg`（Web 登录页与远控品牌位经 `ZCodeAppLogo` 自动生效） |
+
+**保留**：`provider-icons/logo-zai.svg` 仍由 `oauthProviderIcon.tsx` 使用——那是 Z.AI **供应商**品牌图标，不是应用 logo。
+
+## 六、构建期可选能力：默认全关，无需处理
 
 按 `docs/desktop/build-time-optional-capabilities.md`，ARMS 监控、数仓事件上报、桌面自动更新由构建期配置注入，开源导出不含私有默认配置，本仓库构建产物默认零遥测、零更新检查。
 
-## 六、已知影响
+## 七、已知影响
 
 - 登录/套餐/额度重置领取/分享/反馈/远控/官方市场在线目录：不可用（by design）。
 - `appId` 变更后 macOS 视为全新应用，首次运行需重新授予系统权限。
 - 与官方 ZCode App 可并存：数据目录（`~/.onyx` vs `~/.zcode`）、Electron userData、项目级 `.onyx/` vs `.zcode/` 全部隔离。
 - 测试文件未随路径改名（个人构建以 typecheck/lint 为门禁，不跑全量测试）。
 
-## 七、同步后重放
+## 八、同步后重放
 
 上游 sync 后如冲突，按序检查：
 
@@ -73,6 +84,7 @@ cp -a ~/.zcode/v2 ~/.onyx/ && rm -f ~/.onyx/v2/credentials.json
 2. `zcodeEndpoint.ts` 两个 origin 常量 + relay URL 是否被上游覆盖回官方地址；
 3. `oauthService.ts` 熔断常量与 `startOAuthInternal` 入口 guard；
 4. 自定义用量查询：`node.ts` 的 `resolveApiAuthorization` 注入、`codingPlanUsageSources.ts` 的 `buildCustomProviderUsageSource`、`sidebarUsageCodingPlanProviderPreference.ts` 的 `custom:` 分支；
-5. 路径复查：`git grep -n '"\.zcode"' -- packages apps scripts | grep -vE 'restore-legacy|zcode-plugin|\.test\.|/test/|\.md:'`，命中的行改回 `".onyx"`；再查 `git grep -n '"~/.zcode'`。
+5. 图标：`public/logo/icons/`、`packages/desktop/build/` 及 `icons/` 下的 PNG/icns/ico 是否被上游覆盖回 Z 字标；`App.tsx`、`ZCodeAppLogo.tsx` 的 `onyx-logo.svg` 引用是否被还原；
+6. 路径复查：`git grep -n '"\.zcode"' -- packages apps scripts | grep -vE 'restore-legacy|zcode-plugin|\.test\.|/test/|\.md:'`，命中的行改回 `".onyx"`；再查 `git grep -n '"~/.zcode'`。
 
 提交记录：`eb2259a8 rename for personal`（身份）；本批为目录迁移 + 官方剥离（待提交）。
