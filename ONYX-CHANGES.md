@@ -27,6 +27,7 @@
 | `d9c8f413` | UI 净化：欢迎页/模型设置/侧栏登录入口 | 9 | 新增开关文件 + 7 处定点门控 |
 | `f0270d35` | DMG 安装窗口背景图改字 ZCODE → ONYX | 2 | 二进制重绘替换 |
 | `fe6a6cf3` | 图标 Apple 网格 82% 边距（修 Dock 运行时变大）+ 启动 splash 换 Onyx 环 | 28 | 二进制重渲 + HTML 内嵌 SVG 替换 |
+| `cc35917d` | 清除剩余 Z 字标（4 处内嵌 SVG） | 4 | 组件/HTML 内嵌 SVG 替换 |
 
 基线：上游 `a9fe401e chore: sync ZCode source v3.17.2`。
 
@@ -148,6 +149,17 @@
 **根因**：Dock 未运行时读 bundle icns，运行时被 `desktopWindowChrome.ts` 的 `applyAppIcon()`（`app.dock.setIcon(icon.png)`）覆盖；此前全出血 PNG 在运行时显示得更大。原版图标内容区 82% 才是标准尺寸。
 
 **教训（登记在案）**：macOS 图标内容区必须占画布约 82%（Apple 图标网格），全出血会导致 `dock.setIcon` 运行时图标偏大；SVG 切口叠在渐变底色上时用 mask 透明镂空，不用实色平涂。
+
+### `cc35917d` — 清除剩余 Z 字标（4 处内嵌 SVG）
+
+| 文件 | 锚点 | 说明 |
+| --- | --- | --- |
+| `packages/ui/src/root/RootStartupLoading.tsx` | `ZCodeStartupLogo` 组件 SVG | React 接管后的启动加载屏（应用启动闪现 Z 的来源）；`ZCodeStartupLogoBadge` 消费方（标题栏 `DesktopTopOverlay`、`WindowsTopLeftLogo`、职业引导）随组件一次性生效 |
+| `packages/ui/src/components/ui/ZCodeAboutLogo.tsx` | `ZCodeAboutLogo` / `ZCodeWordmarkLogo` | 环形 SVG + Wordmark 改为文字 "Onyx" 占位；消费方（WelcomeScreen 回退、HighspeedShareNoticeCard）随组件生效 |
+| `packages/web/index.html` | boot-loading 内嵌 SVG | Web 版 splash |
+| `packages/desktop/src/main/aboutWindow.ts` | 关于窗口 `app-logo` 内嵌 SVG | 关于窗口 logo |
+
+各处 SVG 的渐变/mask 使用独立 ID（`onyxTiStartup`/`onyxTiAboutLogo`/`onyxTiWeb`/`onyxTiAboutWin`），避免同页多实例 ID 冲突。残留复查：`git grep -rln "M134.4 0.130152\|102.401 217.732" -- .` 应为空。
 
 ## 四、冲突高发预警（按改动性质分级）
 
