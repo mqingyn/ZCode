@@ -23,6 +23,7 @@ import {
   ZAI_PROVIDER_ID,
 } from "@zcode/shared";
 import { useZCodeIntl } from "@/i18n/IntlProvider.js";
+import { ONYX_HIDE_ACCOUNT_PROVIDERS } from "@/lib/onyxBuildFlags.js";
 import { Button } from "@/components/ui/button.js";
 import { useConfirmDialog } from "@/hooks/useConfirmDialog.js";
 import { useModelProviders } from "@/hooks/useModelProviders.js";
@@ -610,12 +611,15 @@ export function ModelProviderSection({
 
   const presetProviders = useMemo(
     () =>
-      PRESET_PROVIDER_SPECS.filter((preset) =>
-        shouldShowPresetProviderForActiveOAuth(preset.id, effectiveProviderFamilyDomain),
-      ).map((preset) => ({
-        ...preset,
-        provider: modelProviders.find((provider) => provider.providerId === preset.id) ?? null,
-      })),
+      // Onyx 个人构建：隐藏账号类预置供应商分组（智谱 BigModel / Z.AI / Start Plan），见 lib/onyxBuildFlags.ts。
+      ONYX_HIDE_ACCOUNT_PROVIDERS
+        ? []
+        : PRESET_PROVIDER_SPECS.filter((preset) =>
+            shouldShowPresetProviderForActiveOAuth(preset.id, effectiveProviderFamilyDomain),
+          ).map((preset) => ({
+            ...preset,
+            provider: modelProviders.find((provider) => provider.providerId === preset.id) ?? null,
+          })),
     [effectiveProviderFamilyDomain, modelProviders],
   );
 

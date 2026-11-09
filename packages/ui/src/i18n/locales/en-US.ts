@@ -1484,8 +1484,8 @@ const enUS: Record<string, string> = {
   "welcome.login": "Login",
   "welcome.loggingIn": "Logging in...",
   "welcome.loginFailed": "Login failed",
-  "login.title": "Welcome to ZCode",
-  "login.description": "Connect your account to start using ZCode",
+  "login.title": "Welcome to Onyx",
+  "login.description": "Set up a model API key to start using Onyx",
   "login.oauth.activeProviderHint":
     "Current active provider: {provider}. Signing in again replaces the current identity.",
   "login.oauth.loadingProviders": "Loading account providers...",

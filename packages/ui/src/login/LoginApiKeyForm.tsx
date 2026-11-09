@@ -13,6 +13,7 @@ import {
   testId,
 } from "@zcode/shared/test-ids";
 import { Alert, AlertDescription } from "@/components/ui/alert.js";
+import { ONYX_HIDE_OAUTH_LOGIN } from "@/lib/onyxBuildFlags.js";
 import { Button } from "@/components/ui/button.js";
 import { Input } from "@/components/ui/input.js";
 import {
@@ -257,17 +258,20 @@ export function LoginApiKeyForm({ onCancel, onSaved, onSkipped }: LoginApiKeyFor
           {saving ? <Loader2Icon className="size-4 animate-spin" /> : null}
           {intl.formatMessage({ id: "login.apiKey.continue" })}
         </Button>
-        <Button
-          type="button"
-          variant="outline"
-          className="h-10 w-full text-ui-base"
-          size="lg"
-          data-testid={TID_LOGIN_API_KEY_CANCEL_BUTTON}
-          disabled={busy}
-          onClick={onCancel}
-        >
-          {intl.formatMessage({ id: "login.apiKey.cancel" })}
-        </Button>
+        {/* Onyx 个人构建：OAuth 渠道已隐藏，「取消」无处可去，一并隐藏。 */}
+        {ONYX_HIDE_OAUTH_LOGIN ? null : (
+          <Button
+            type="button"
+            variant="outline"
+            className="h-10 w-full text-ui-base"
+            size="lg"
+            data-testid={TID_LOGIN_API_KEY_CANCEL_BUTTON}
+            disabled={busy}
+            onClick={onCancel}
+          >
+            {intl.formatMessage({ id: "login.apiKey.cancel" })}
+          </Button>
+        )}
         <Button
           type="button"
           variant="link"

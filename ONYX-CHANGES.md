@@ -24,6 +24,7 @@
 | `869b8286` | 图标与 Logo：钛金属 O 环 | 32 | 二进制替换 + 新增 SVG + 2 处 import 修改 |
 | `361b4fda` | UI 文案路径提示修正 | 2 | 定点字符串替换 |
 | `9db3984d` | 图标圆角外白底修复为透明 | 27 | 二进制重渲替换 |
+| 待提交 | UI 净化：欢迎页/模型设置/侧栏登录入口 | 8 | 新增开关文件 + 7 处定点门控 |
 
 基线：上游 `a9fe401e chore: sync ZCode source v3.17.2`。
 
@@ -107,6 +108,23 @@
 **验证**：解码 PNG 首行首像素应为 `[0,0,0,0]`（透明）；`869b8286` 版为 `[255,255,255,255]`。
 
 **教训（登记在案）**：`qlmanage -t` 渲染的 PNG **不保留透明度**，涉及圆角/透明底的图标一律用 CoreGraphics 直绘路径；SVG 源仅作设计稿。
+
+### 待提交 — UI 净化：欢迎页 / 模型设置 / 侧栏登录入口
+
+**新增开关文件（零冲突）**：`packages/ui/src/lib/onyxBuildFlags.ts` —— `ONYX_HIDE_OAUTH_LOGIN` / `ONYX_HIDE_ACCOUNT_PROVIDERS` 两个常量，全部 UI 净化改动以此为锚点。
+
+| 文件 | 锚点 | 改动 |
+| --- | --- | --- |
+| `packages/ui/src/WelcomeScreen.tsx` | import 区 / `loginMode` useState / providers 块渲染条件 / `LoginPanelLogo` | 默认进入 API key 模式；OAuth 渠道按钮整块不渲染；欢迎 logo 换 `onyx-logo.svg` |
+| `packages/ui/src/login/LoginApiKeyForm.tsx` | 取消按钮渲染 | 开关开启时隐藏「取消」（无处可返回） |
+| `packages/ui/src/i18n/locales/zh-CN.ts`、`en-US.ts` | `login.title` / `login.description` | 文案改为 Onyx（「配置模型 API Key，开始使用 Onyx」） |
+| `packages/ui/src/settings/ModelProviderSection.tsx` | `presetProviders` memo | 开关开启时返回 `[]`（智谱 BigModel / Z.AI 预置供应商不进导航） |
+| `packages/ui/src/settings/model-provider-section/useModelProviderNavigation.ts` | `navigationGroups` memo | preset 分组整体条件渲染（含 Start Plan 条目）；重构为 `presetGroup` 常量 + 条件展开 |
+| `packages/ui/src/WorkspaceSidebarFooter.tsx` | 登录菜单项渲染条件 | 开关开启时隐藏侧栏账号菜单的「登录」项（rewards 项原本就按 `user` 门控，未登录自动隐藏） |
+
+**冲突处置**：所有门控都是「条件块包住上游原代码」形态——冲突时保留上游结构，确认开关常量引用仍在即可。`useModelProviderNavigation.ts` 的 memo 被重构成 `presetGroup` 常量 + 条件展开，上游若改 preset items 构造，把同样内容搬进 `presetGroup.items` 即可。
+
+**验证**：`pnpm dev:desktop` → 首次启动欢迎页只显示 Onyx logo + API key 表单（无 Z.ai/BigModel 按钮）；设置 → 模型供应商左侧只有「自定义供应商」分组；侧栏账号菜单无「登录」项。
 
 ## 四、冲突高发预警（按改动性质分级）
 

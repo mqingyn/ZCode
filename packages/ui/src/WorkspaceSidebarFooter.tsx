@@ -1,4 +1,5 @@
 import { SidebarNativeTooltip, ControlHintTooltip } from "@/ControlHintTooltip.js";
+import { ONYX_HIDE_OAUTH_LOGIN } from "@/lib/onyxBuildFlags.js";
 /* oxlint-disable eslint(max-lines) -- footer 聚合账户、主题、模式和快捷键菜单。 */
 import type { Locale, UserInfo } from "@zcode/shared";
 import { memo, useCallback, useEffect, useState, type ReactNode } from "react";
@@ -447,7 +448,8 @@ export const WorkspaceSidebarFooter = memo(function WorkspaceSidebarFooterCompon
                 </Badge>
               </DropdownMenuItem>
             ) : null}
-            {onLogin && !user ? (
+            {/* Onyx 个人构建：登录已剥离，隐藏登录菜单项（见 lib/onyxBuildFlags.ts）。 */}
+            {onLogin && !user && !ONYX_HIDE_OAUTH_LOGIN ? (
               <>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={onLogin} data-testid={TID_LOGIN_MENU_ITEM}>

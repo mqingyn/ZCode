@@ -15,6 +15,7 @@ import {
   type OAuthProviderId,
 } from "@zcode/shared";
 import { useZCodeIntl } from "@/i18n/IntlProvider.js";
+import { ONYX_HIDE_ACCOUNT_PROVIDERS } from "@/lib/onyxBuildFlags.js";
 import {
   CODING_PLAN_PROVIDER_SPECS,
   type CodingPlanEntitlementState,
@@ -178,38 +179,40 @@ export function useModelProviderNavigation({
   );
 
   const navigationGroups = useMemo<ModelProviderNavGroup[]>(() => {
+    const presetGroup: ModelProviderNavGroup = {
+      id: "preset",
+      title: intl.formatMessage({ id: "settings.modelProvider.presetTitle" }),
+      items: [
+        ...presetProviders.map(({ id, displayName, provider }) => {
+          const statusProvider = resolvePresetFamilyStatusProvider({
+            presetId: id,
+            provider,
+            connectionModeItems: connectionModeCodingPlanItems,
+            connectionSelections,
+            modelProviders,
+          });
+          return {
+            key: createPresetProviderNodeKey(id),
+            type: "preset" as const,
+            presetId: id,
+            label: displayName,
+            logo: modelProviders.find(
+              (candidate) =>
+                candidate.providerId ===
+                resolveModelProviderFamilySpecByProviderId(id)?.individualCodingPlanProviderId,
+            )?.config.logo,
+            provider,
+            displayName,
+            statusProvider,
+            statusActive: statusProvider?.executable === true,
+          };
+        }),
+        ...codingPlanItems.filter((item) => isStartPlanModelProviderId(item.presetId)),
+      ],
+    };
     const groups: ModelProviderNavGroup[] = [
-      {
-        id: "preset",
-        title: intl.formatMessage({ id: "settings.modelProvider.presetTitle" }),
-        items: [
-          ...presetProviders.map(({ id, displayName, provider }) => {
-            const statusProvider = resolvePresetFamilyStatusProvider({
-              presetId: id,
-              provider,
-              connectionModeItems: connectionModeCodingPlanItems,
-              connectionSelections,
-              modelProviders,
-            });
-            return {
-              key: createPresetProviderNodeKey(id),
-              type: "preset" as const,
-              presetId: id,
-              label: displayName,
-              logo: modelProviders.find(
-                (candidate) =>
-                  candidate.providerId ===
-                  resolveModelProviderFamilySpecByProviderId(id)?.individualCodingPlanProviderId,
-              )?.config.logo,
-              provider,
-              displayName,
-              statusProvider,
-              statusActive: statusProvider?.executable === true,
-            };
-          }),
-          ...codingPlanItems.filter((item) => isStartPlanModelProviderId(item.presetId)),
-        ],
-      },
+      // Onyx 个人构建：隐藏账号类预置分组（智谱 BigModel / Z.AI 编程套餐 / Start Plan），见 lib/onyxBuildFlags.ts。
+      ...(ONYX_HIDE_ACCOUNT_PROVIDERS ? [] : [presetGroup]),
       {
         id: "custom",
         title: intl.formatMessage({ id: "settings.modelProvider.customTitle" }),
