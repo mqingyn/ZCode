@@ -56,7 +56,7 @@ cp -a ~/.zcode/v2 ~/.onyx/ && rm -f ~/.onyx/v2/credentials.json
 
 ## 五、图标与 Logo（本分支新增）
 
-设计：黑色圆角方块 + 钛金属渐变 "O" 环 + 水平切口（缟玛瑙层带）。**主源文件：`public/logo/onyx-master.svg`（已入仓库）**；重新生成全尺寸：`qlmanage -t -s <size> -o <outdir> public/logo/onyx-master.svg`（macOS），`icon.icns` 用 iconutil 从 iconset 构建，`icon.ico` 为 16–256 七档 PNG 打包。
+设计：黑色圆角方块 + 钛金属渐变 "O" 环 + 水平切口（缟玛瑙层带）。**主源文件：`public/logo/onyx-master.svg`（已入仓库，仅作设计稿）**；重新生成图标时用 CoreGraphics 直绘（保留圆角外透明 alpha），**不要用 `qlmanage -t`（会铺白底）**。
 
 | 覆盖点 | 内容 |
 | --- | --- |
