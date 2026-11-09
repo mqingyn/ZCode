@@ -26,6 +26,7 @@
 | `9db3984d` | 图标圆角外白底修复为透明 | 27 | 二进制重渲替换 |
 | `d9c8f413` | UI 净化：欢迎页/模型设置/侧栏登录入口 | 9 | 新增开关文件 + 7 处定点门控 |
 | `f0270d35` | DMG 安装窗口背景图改字 ZCODE → ONYX | 2 | 二进制重绘替换 |
+| `fe6a6cf3` | 图标 Apple 网格 82% 边距（修 Dock 运行时变大）+ 启动 splash 换 Onyx 环 | 28 | 二进制重渲 + HTML 内嵌 SVG 替换 |
 
 基线：上游 `a9fe401e chore: sync ZCode source v3.17.2`。
 
@@ -136,6 +137,17 @@
 **冲突处置**：上游若更新背景图，整文件取 Onyx 版后用同一方法重绘（采样字色 + 逐行克隆 + 居中绘制）。
 
 **教训（登记在案）**：背景有渐变/纹理时平涂会留下矩形补丁缝，必须逐行克隆同高度干净区域。
+
+### `fe6a6cf3` — 图标 82% 边距修复 + 启动 splash 换 Onyx 环
+
+| 文件 | 改动 |
+| --- | --- |
+| `public/logo/icons/`、`packages/desktop/build/`（含 `icons/`）全部 27 个图标文件 | 重渲：内容区按 Apple 图标网格缩至画布 82%（原版实测 842/1024），四周透明边距 |
+| `packages/desktop/src/renderer/index.html` | 启动 splash 内嵌 Z 字 SVG → Onyx 钛金属环（切口用 mask 挖空透出壳底渐变，无色差） |
+
+**根因**：Dock 未运行时读 bundle icns，运行时被 `desktopWindowChrome.ts` 的 `applyAppIcon()`（`app.dock.setIcon(icon.png)`）覆盖；此前全出血 PNG 在运行时显示得更大。原版图标内容区 82% 才是标准尺寸。
+
+**教训（登记在案）**：macOS 图标内容区必须占画布约 82%（Apple 图标网格），全出血会导致 `dock.setIcon` 运行时图标偏大；SVG 切口叠在渐变底色上时用 mask 透明镂空，不用实色平涂。
 
 ## 四、冲突高发预警（按改动性质分级）
 
