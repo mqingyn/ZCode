@@ -28,6 +28,7 @@
 | `f0270d35` | DMG 安装窗口背景图改字 ZCODE → ONYX | 2 | 二进制重绘替换 |
 | `fe6a6cf3` | 图标 Apple 网格 82% 边距（修 Dock 运行时变大）+ 启动 splash 换 Onyx 环 | 28 | 二进制重渲 + HTML 内嵌 SVG 替换 |
 | `a1ad2edd` | 禁用官方 Coding Plan 网关改写（模型请求直连原始 URL） | 1 | 定点常量守卫 |
+| `2c9bd8ac` | CLI 命令彻底改名 zcode→onyx | 14 | bin 字段 + 打包脚本命名 + Usage 文本 + TUI 品牌 |
 | `cc35917d` | 清除剩余 Z 字标（4 处内嵌 SVG） | 4 | 组件/HTML 内嵌 SVG 替换 |
 
 基线：上游 `a9fe401e chore: sync ZCode source v3.17.2`。
@@ -171,6 +172,24 @@
 **背景**：官方客户端会把 `open.bigmodel.cn/api/anthropic/v1/messages`、`api.z.ai/api/anthropic/v1/messages` 两个 URL 的模型请求改写到 `zcode.z.ai/api/v1/ultra[-zai]/...` 网关（账号计费代理，需登录派生凭据）。Onyx 已剥离登录且控制面端点指向死端口，改写只会把可直连的官方 Anthropic 端点改坏。禁用后，自定义 provider 配 `https://open.bigmodel.cn/api/anthropic`（Anthropic 协议 + 套餐 key）即可直连官方同款端点，按套餐额度计费。
 
 **事故记录**：本补丁最初误提交并推送到 `main`（`2a81a11e`，当时 HEAD 意外停留在 main），已 cherry-pick 回 onyx-client 并将 main 强推回上游基线 `a9fe401e`。教训：跨回合工作前先 `git branch --show-current` 确认 HEAD；推 main 前必须显式核对目标分支。
+
+### `2c9bd8ac` — CLI 命令彻底改名 zcode → onyx
+
+| 文件 | 锚点 | 改动 |
+| --- | --- | --- |
+| `apps/zcode-cli/packages/cli/package.json` | `bin` 字段 | `onyx: ./dist/zcode.cjs`（**内部 bundle 文件名 zcode.cjs 保留**——桌面包按 `ZCODE_AGENT_RUNTIME.nodeBundleEntryFile` 引用它，改文件名会级联到 bundle/SEA 装配且零用户可见收益） |
+| `scripts/build-zcode.mjs` | `packageDirName` / `defaultOutDir` / runner 目标 / latest.json `name` / 包名 | dist 包根目录、`bin/onyx.mjs`、onyx-runtime |
+| `scripts/zcode-distribution/runner.mjs` | usage 文本 | `onyx --web` 等 |
+| `scripts/zcode-distribution/installer.mjs` | `packageDirName` / `$BIN_DIR/onyx` 包装器 / 提示语 | **顺带修复遗留**：`$HOME/.zcode/runtime` → `$HOME/.onyx/runtime` |
+| `apps/zcode-cli/packages/cli/scripts/sea-targets.mjs`、`build-sea.mjs` | `outputBinaryName` / sea blob 名 | 单文件可执行产物 `onyx-<platform>-<arch>` |
+| `cli/src/commands-command.ts`、`login-command.ts`、`plugins-command.ts`、`skills-command.ts` | Usage 文本 | `Usage: onyx ...` |
+| `packages/tui/src/app-sidebar.tsx` | `PRODUCT_NAME` | TUI 侧栏品牌名 Onyx |
+| `scripts/doctor-macos-release-app.sh` | `ZCODE_HOME_DIR` 等 | 修复遗留 `$HOME/.zcode` → `.onyx` |
+| `scripts/zcode-distribution.test.mjs`、`cli/tests/build-sea.test.mjs` | 端到端断言同步 | 安装器测试通过（5✔1✖——✖ 为 node-pty 预编译在本环境缺 node_modules 的既有环境问题，与改名无关） |
+
+**副作用核实（比预判更干净）**：搜索加速的 shell prelude 默认后端是 `native-binaries`（bfs/ugrep/rg 绝对路径），`zcode __internal-search` 的 internal-cli 后端只在测试夹具中出现、生产无引用——命令改名对搜索加速**零影响**。桌面版 spawn 的是包内资源路径的 agent，不经 PATH 命令名。
+
+**刻意不改**：`dist/zcode.cjs` 内部文件名、`pnpm build:zcode` 脚本名、上游文档（`apps/zcode-cli/docs/**`、README CLI 章节）——dev/文档面改名只有 sync 冲突没有收益；命令名映射以本节为准。
 
 ## 四、冲突高发预警（按改动性质分级）
 
