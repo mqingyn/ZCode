@@ -168,7 +168,7 @@ function decodePromptAttachmentDataUrl(
 
 export async function createZCodeApp(options: ZCodeAppOptions): Promise<ZCodeApp> {
   if (!options?.providerRegistry) {
-    throw new Error("createOnyxApp requires a Provider Registry");
+    throw new Error("createZCodeApp requires a Provider Registry");
   }
   const startupStartedAt = startupNow();
   const appVersion = options.version ?? "0.0.0";

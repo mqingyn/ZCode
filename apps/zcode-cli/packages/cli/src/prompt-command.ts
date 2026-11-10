@@ -131,7 +131,7 @@ export const runPrompt = async (
 
   let traceId: string | undefined;
   let app:
-    | Awaited<ReturnType<Awaited<ReturnType<typeof loadBootstrapModule>>["createOnyxApp"]>>
+    | Awaited<ReturnType<Awaited<ReturnType<typeof loadBootstrapModule>>["createZCodeApp"]>>
     | undefined;
   let closePromise: Promise<void> | undefined;
   let browserRuntime: ReturnType<typeof createCliHeadlessBrowserRuntime>;

@@ -15,8 +15,8 @@ export type PluginScope = "user" | "workspace";
  * 避免 `zcode plugins list` 这类轻命令把整个 bootstrap 图提前拉起来。
  */
 export const BOOTSTRAP_EXPORTS = {
-  addMarketplace: "addOnyxPluginMarketplace",
-  getPluginsOverview: "getOnyxPluginsOverview",
+  addMarketplace: "addZCodePluginMarketplace",
+  getPluginsOverview: "getZCodePluginsOverview",
   installPlugin: "installOnyxMarketplacePlugin",
   listPlugins: "listOnyxPlugins",
   removeMarketplace: "removeOnyxPluginMarketplace",

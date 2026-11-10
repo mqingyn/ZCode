@@ -354,7 +354,7 @@ export const waitForHeadlessWorkflowSettle = async (input: {
  * 这个 app 的 runtime 能提供 busy 事实吗？
  *
  * 动态读取的理由见 `runtime-event-subscriber.ts` 的 `readRuntimeFunction`（同一个
- * `RunDependencies.createOnyxApp` 注入点边界）。
+ * `RunDependencies.createZCodeApp` 注入点边界）。
  *
  * **不静默降级**：拿不到 busy 事实就不进等待——"这个宿主没有这个能力"的诚实答复，
  * 而不是假装等过了。

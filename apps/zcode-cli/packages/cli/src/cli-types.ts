@@ -67,7 +67,7 @@ export interface RunDependencies extends PluginsCommandOverrides {
   /**
    * Session-event shaper for --output-format stream-json. Defaults to the
    * bootstrap module's, which is also what the protocol server uses; injectable
-   * so a caller that supplies its own `createOnyxApp` (tests, embedders) can
+   * so a caller that supplies its own `createZCodeApp` (tests, embedders) can
    * still stream, since the bootstrap module is not loaded on that path.
    */
   mapSessionEvent?: BootstrapModule["mapSessionEvent"];
@@ -99,7 +99,7 @@ export interface RunDependencies extends PluginsCommandOverrides {
   ) => ReturnType<typeof loadZCodeCustomCommand>;
   // headless slash 路由要和 app facade 的保留名 gate 用同一个判据；默认取 bootstrap 的，
   // 注入点只为让单测不必拉起整个 bootstrap 模块。见 prompt-command.ts。
-  isReservedSlashCommandName?: BootstrapModule["isReservedOnyxSlashCommandName"];
+  isReservedSlashCommandName?: BootstrapModule["isReservedZCodeSlashCommandName"];
   listSkills?: (options: ListZCodeSkillsOptions) => ReturnType<typeof listZCodeSkills>;
   logger?: Logger;
   readClipboardImage?: TuiReadClipboardImage;
