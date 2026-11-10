@@ -234,7 +234,7 @@ test("rejects empty SEA target selectors", () => {
 });
 
 test("maps SEA targets to output binary names", () => {
-  assert.equal(outputBinaryName("darwin-arm64"), "zcode-darwin-arm64");
+  assert.equal(outputBinaryName("darwin-arm64"), "onyx-darwin-arm64");
   assert.equal(outputBinaryName("linux-x64"), "zcode-linux-x64");
   assert.equal(outputBinaryName("win-arm64"), "zcode-windows-arm64.exe");
   assert.equal(outputBinaryName("win-x64"), "zcode-windows-x64.exe");
