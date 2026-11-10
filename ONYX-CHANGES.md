@@ -221,6 +221,11 @@
 **冲突处置**：批量文件均为字符串值替换，冲突时 accept ours 后跑复查命令。
 **复查命令**：`git grep -rn '"ZCode' -- packages apps --include="*.ts" --include="*.tsx" | grep -vE "test|/tests/|import|type |ZCode[A-Z]"` —— 命中应仅剩 wdio.conf（E2E 配置）与插件内 dev 工具等刻意保留项。
 
+**修复（8bcd5ab4）**：electron-builder 的 extraResources 复制会忽略被复制目录**顶层**的 node_modules（filter 正则无法覆盖该内置忽略；嵌套的不管——koffi 先例即嵌套路径）。改为 afterPack 钩子直接把 staged 的 glm/node_modules 拷进 .app（位于 zip/DMG 出包前，产物必然包含）。实测：DMG 236MB（+11MB），挂载内 glm/node_modules 68MB、@zcode/tui 在位。
+
+**打包实操备忘**：必须带双镜像环境变量（仅 ELECTRON_MIRROR 不够，DMG 阶段下载 dmgbuild 走 GitHub 会 600s 超时）：
+`ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/ pnpm bundle:desktop`
+
 **教训（登记在案）**：字符串级批量替换必须排除 `${}` 插值区；跨进程“字符串契约”（错误消息 startsWith/includes 匹配）改名要两侧同步，先查消费侧再改生成侧。
 
 **修复（779e7caa，用户报告）**：`workspace-hook-config.ts` / `workspace-hook-mutation.ts` 的 `".zcode/config.json"` kind 字面量是批量替换漏网（带 `/config.json` 后缀不匹配精确模式），导致候选路径构造（已是 `.onyx`）与 kind 归类（仍是 `.zcode`）分裂——自动发现的 workspace hook 配置永远归错类、可编辑性校验必败。已对齐为 `.onyx/config.json`（`zcode.json` 平面文件名保留）。测试文件未同步（既定策略）。
