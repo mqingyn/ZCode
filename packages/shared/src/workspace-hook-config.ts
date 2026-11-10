@@ -17,7 +17,7 @@ export const WORKSPACE_HOOK_EVENT_NAMES = [
 ] as const;
 
 export type WorkspaceHookEventName = (typeof WORKSPACE_HOOK_EVENT_NAMES)[number];
-export type WorkspaceHookConfigFileKind = "zcode.json" | ".zcode/config.json" | "explicit";
+export type WorkspaceHookConfigFileKind = "zcode.json" | ".onyx/config.json" | "explicit";
 
 const positiveNumberSchema = z.number().finite().positive();
 
@@ -242,7 +242,7 @@ export function createWorkspaceHookSourceInput(input: {
       ? "explicit"
       : basename(canonicalPath) === "zcode.json"
         ? "zcode.json"
-        : ".zcode/config.json",
+        : ".onyx/config.json",
     explicitProjectConfig,
     editable:
       !explicitProjectConfig &&
