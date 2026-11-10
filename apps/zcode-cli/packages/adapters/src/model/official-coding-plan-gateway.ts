@@ -4,6 +4,8 @@ import type {
 } from "@zcode/contracts";
 
 const HTTPS_DEFAULT_PORT = "443";
+/** Onyx 个人构建：禁用官方 Coding Plan 网关改写，模型请求一律直连原始 URL（见 ONYX.md 二节）。 */
+const ONYX_GATEWAY_REWRITE_DISABLED = true;
 const ROOT_PATH = "/";
 const GATEWAY_PATH_BY_ENDPOINT: ReadonlyMap<string, string> = new Map([
   ["https://open.bigmodel.cn:443/api/anthropic/v1/messages", "/api/v1/ultra/anthropic/v1/messages"],
@@ -16,6 +18,14 @@ export function createStaticProviderEndpointRoutingPort(
 ): ProviderEndpointRoutingPort {
   return {
     async resolve(requestUrl): Promise<ProviderEndpointRoutingDecision> {
+      // Onyx 个人构建：官方 ultra 网关（zcode.z.ai）属账号体系，端点已指向死端口（见 ONYX.md），
+      // 改写只会把可直连的官方 Anthropic 端点改坏。改写表仅留档供上游对照，一律直连原 URL。
+      if (ONYX_GATEWAY_REWRITE_DISABLED) {
+        void HTTPS_DEFAULT_PORT;
+        void GATEWAY_PATH_BY_ENDPOINT;
+        void endpointOrigin;
+        return { routed: false, url: requestUrl };
+      }
       let parsed: URL;
       try {
         parsed = new URL(requestUrl);
