@@ -204,6 +204,8 @@
 
 **已实测**（对官方 ZCode.app 包模拟安装流程）：`~/.local/bin/onyx` 包装器生成后 `onyx --version`（0.17.1）、`onyx doctor` 正常——机制与打包产物无关，Onyx.app 同构。
 
+**修复（779e7caa，用户报告）**：`workspace-hook-config.ts` / `workspace-hook-mutation.ts` 的 `".zcode/config.json"` kind 字面量是批量替换漏网（带 `/config.json` 后缀不匹配精确模式），导致候选路径构造（已是 `.onyx`）与 kind 归类（仍是 `.zcode`）分裂——自动发现的 workspace hook 配置永远归错类、可编辑性校验必败。已对齐为 `.onyx/config.json`（`zcode.json` 平面文件名保留）。测试文件未同步（既定策略）。
+
 **修复（e077dabc）**：冷启动 wrapper 缺少 Host 会注入的 `ZCODE_BUILTIN_PROVIDER_CONFIG_FILE`，CLI 按相对入口探测打包布局失败并报"无法定位 CLI ZCode Built-in Provider Config"。wrapper 现在注入 `Resources/config/provider/zcode-builtin.json`（存在时），与 Host 拉起 agent 的约定一致。
 **设计要点**：复用包内 Electron 作 Node 运行时，目标机器无需安装 Node；包装器含 Generated 注释，重复点击菜单安全幂等。
 
