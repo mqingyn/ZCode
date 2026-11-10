@@ -89,6 +89,9 @@ const requiredDevPluginRuntimeBuilds = [
   { packageName: "@zcode/zcode-site-plugin", artifactPath: "zcode-site-plugin/dist/server.mjs" },
 ];
 const defaultBuildFilters = [
+  // Onyx 个人构建：TUI 运行时收集器（stage-tui-runtime-into-glm.mjs）需要其 dist，
+  // 须在 @zcode/tui 之前构建（该包在 packages/ 而非 agent 子 workspace）。
+  "@zcode/model-option-map",
   ...cliWorkspaceBuilds.map(({ packageName }) => packageName),
   ...requiredDevPluginRuntimeBuilds.map(({ packageName }) => packageName),
 ];

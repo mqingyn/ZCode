@@ -5,7 +5,7 @@ import { type NodeReplBrowserBrokerConnection } from "./browser-bridge.js";
 import { type NodeReplBrowserBrokerUpstream } from "./call-ledger/contract.js";
 import { type NodeReplCuaBrokerConnection } from "./cua-bridge.js";
 import { installNodeReplProcessGuards, installNodeReplShutdownTriggers } from "./process-lifecycle.js";
-export declare const NODE_REPL_MCP_PROCESS_TITLE = "zcode-node-repl-mcp";
+export declare const NODE_REPL_MCP_PROCESS_TITLE = "onyx-node-repl-mcp";
 export interface NodeReplExecuteInput {
     code: string;
     requestMeta: NodeReplRequestMeta;
