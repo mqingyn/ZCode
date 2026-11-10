@@ -204,6 +204,8 @@
 
 **已实测**（对官方 ZCode.app 包模拟安装流程）：`~/.local/bin/onyx` 包装器生成后 `onyx --version`（0.17.1）、`onyx doctor` 正常——机制与打包产物无关，Onyx.app 同构。
 
+**修复（f02978f6，用户报告）**：安装的 onyx 命令跑 TUI 报 `Cannot find package '@zcode/tui'`——agent bundle 的 TUI 是 external，官方桌面只跑 app-server 故刻意不带 TUI（prepare-agent-node-bundle.mjs 头注释）。修复：新增 `packages/desktop/scripts/stage-tui-runtime-into-glm.mjs`（复用 SEA 的 collectSeaTuiAssets 收集器，按宿主平台把 @zcode/tui 及依赖含原生包 staged 到 `glm/node_modules/`，extraResources 不受 asar native 门禁限制）；接入 `prepare-agent-node-bundle.mjs` 的 `stageBundle()`；`build-desktop-agent-cli.mjs` 构建清单补 `@zcode/tui`（其 dist 为运行时入口）。包体约增几十 MB（opentui/react/node-pty natives）。
+
 **修复（779e7caa，用户报告）**：`workspace-hook-config.ts` / `workspace-hook-mutation.ts` 的 `".zcode/config.json"` kind 字面量是批量替换漏网（带 `/config.json` 后缀不匹配精确模式），导致候选路径构造（已是 `.onyx`）与 kind 归类（仍是 `.zcode`）分裂——自动发现的 workspace hook 配置永远归错类、可编辑性校验必败。已对齐为 `.onyx/config.json`（`zcode.json` 平面文件名保留）。测试文件未同步（既定策略）。
 
 **修复（e077dabc）**：冷启动 wrapper 缺少 Host 会注入的 `ZCODE_BUILTIN_PROVIDER_CONFIG_FILE`，CLI 按相对入口探测打包布局失败并报"无法定位 CLI ZCode Built-in Provider Config"。wrapper 现在注入 `Resources/config/provider/zcode-builtin.json`（存在时），与 Host 拉起 agent 的约定一致。
