@@ -206,6 +206,23 @@
 
 **修复（f02978f6，用户报告）**：安装的 onyx 命令跑 TUI 报 `Cannot find package '@zcode/tui'`——agent bundle 的 TUI 是 external，官方桌面只跑 app-server 故刻意不带 TUI（prepare-agent-node-bundle.mjs 头注释）。修复：新增 `packages/desktop/scripts/stage-tui-runtime-into-glm.mjs`（复用 SEA 的 collectSeaTuiAssets 收集器，按宿主平台把 @zcode/tui 及依赖含原生包 staged 到 `glm/node_modules/`，extraResources 不受 asar native 门禁限制）；接入 `prepare-agent-node-bundle.mjs` 的 `stageBundle()`；`build-desktop-agent-cli.mjs` 构建清单补 `@zcode/tui`（其 dist 为运行时入口）。包体约增几十 MB（opentui/react/node-pty natives）。
 
+### `f4ade077` — 外露面 ZCode 全量收敛
+
+| 域 | 改动 |
+| --- | --- |
+| i18n 文案 | `packages/ui/src/i18n/locales/zh-CN.ts`（137 处）/ `en-US.ts`（138 处）值级替换；CLI i18n 包 `apps/zcode-cli/packages/i18n/locales/*` 启动串 |
+| 菜单/托盘/关于页 | `shared/src/desktopMenu.ts`（tray tooltip、打开/关于菜单）、`desktop/src/main/about.ts` 版权、renderer/web `index.html` 的 `<title>` |
+| 进程名 | `shared/src/process-names.ts` 前缀 `zcode`→`onyx`（host/renderer/agent/gpu/utility 全部随前缀派生）、`node-repl-host` MCP 进程标题、CLI `CLI_PROCESS_NAME` |
+| 对话框/错误串/远程提示 | `desktopCommandHandlers.ts` 清数据确认框（含 ~/.onyx/v2 事实修正）、`exportLogs.ts` 导出归档目录前缀、server/remote 提示、feedback/lock/OpenRouter 头、CLI/TUI 输出文本 |
+| Windows 安装清单 | `.zcode-install-manifest` → `.onyx-install-manifest`（installer.nsh + electron-builder.config.js） |
+
+**执行方式**：正则限定“仅字符串字面量内”替换（标识符、注释、模块路径不动），随后人工修复两类误伤：① 模板字符串 `${}` 插值里的函数名（6 处，已回退为 ZCode* 原名）；② 跨进程错误串匹配（UI `conversationProjectionStore` 过滤串与服务端抛错文案对齐为 Onyx*）。
+
+**冲突处置**：批量文件均为字符串值替换，冲突时 accept ours 后跑复查命令。
+**复查命令**：`git grep -rn '"ZCode' -- packages apps --include="*.ts" --include="*.tsx" | grep -vE "test|/tests/|import|type |ZCode[A-Z]"` —— 命中应仅剩 wdio.conf（E2E 配置）与插件内 dev 工具等刻意保留项。
+
+**教训（登记在案）**：字符串级批量替换必须排除 `${}` 插值区；跨进程“字符串契约”（错误消息 startsWith/includes 匹配）改名要两侧同步，先查消费侧再改生成侧。
+
 **修复（779e7caa，用户报告）**：`workspace-hook-config.ts` / `workspace-hook-mutation.ts` 的 `".zcode/config.json"` kind 字面量是批量替换漏网（带 `/config.json` 后缀不匹配精确模式），导致候选路径构造（已是 `.onyx`）与 kind 归类（仍是 `.zcode`）分裂——自动发现的 workspace hook 配置永远归错类、可编辑性校验必败。已对齐为 `.onyx/config.json`（`zcode.json` 平面文件名保留）。测试文件未同步（既定策略）。
 
 **修复（e077dabc）**：冷启动 wrapper 缺少 Host 会注入的 `ZCODE_BUILTIN_PROVIDER_CONFIG_FILE`，CLI 按相对入口探测打包布局失败并报"无法定位 CLI ZCode Built-in Provider Config"。wrapper 现在注入 `Resources/config/provider/zcode-builtin.json`（存在时），与 Host 拉起 agent 的约定一致。
