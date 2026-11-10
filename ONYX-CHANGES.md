@@ -27,6 +27,7 @@
 | `d9c8f413` | UI 净化：欢迎页/模型设置/侧栏登录入口 | 9 | 新增开关文件 + 7 处定点门控 |
 | `f0270d35` | DMG 安装窗口背景图改字 ZCODE → ONYX | 2 | 二进制重绘替换 |
 | `fe6a6cf3` | 图标 Apple 网格 82% 边距（修 Dock 运行时变大）+ 启动 splash 换 Onyx 环 | 28 | 二进制重渲 + HTML 内嵌 SVG 替换 |
+| `a1ad2edd` | 禁用官方 Coding Plan 网关改写（模型请求直连原始 URL） | 1 | 定点常量守卫 |
 | `cc35917d` | 清除剩余 Z 字标（4 处内嵌 SVG） | 4 | 组件/HTML 内嵌 SVG 替换 |
 
 基线：上游 `a9fe401e chore: sync ZCode source v3.17.2`。
@@ -160,6 +161,16 @@
 | `packages/desktop/src/main/aboutWindow.ts` | 关于窗口 `app-logo` 内嵌 SVG | 关于窗口 logo |
 
 各处 SVG 的渐变/mask 使用独立 ID（`onyxTiStartup`/`onyxTiAboutLogo`/`onyxTiWeb`/`onyxTiAboutWin`），避免同页多实例 ID 冲突。残留复查：`git grep -rln "M134.4 0.130152\|102.401 217.732" -- .` 应为空。
+
+### `a1ad2edd` — 禁用官方 Coding Plan 网关改写
+
+| 文件 | 锚点 | 改动 |
+| --- | --- | --- |
+| `apps/zcode-cli/packages/adapters/src/model/official-coding-plan-gateway.ts` | 常量 `ONYX_GATEWAY_REWRITE_DISABLED` + `resolve()` 首个守卫分支 | 改写表留档供上游对照，命中也一律返回 routed:false，模型请求直连原始 URL |
+
+**背景**：官方客户端会把 `open.bigmodel.cn/api/anthropic/v1/messages`、`api.z.ai/api/anthropic/v1/messages` 两个 URL 的模型请求改写到 `zcode.z.ai/api/v1/ultra[-zai]/...` 网关（账号计费代理，需登录派生凭据）。Onyx 已剥离登录且控制面端点指向死端口，改写只会把可直连的官方 Anthropic 端点改坏。禁用后，自定义 provider 配 `https://open.bigmodel.cn/api/anthropic`（Anthropic 协议 + 套餐 key）即可直连官方同款端点，按套餐额度计费。
+
+**事故记录**：本补丁最初误提交并推送到 `main`（`2a81a11e`，当时 HEAD 意外停留在 main），已 cherry-pick 回 onyx-client 并将 main 强推回上游基线 `a9fe401e`。教训：跨回合工作前先 `git branch --show-current` 确认 HEAD；推 main 前必须显式核对目标分支。
 
 ## 四、冲突高发预警（按改动性质分级）
 
