@@ -1697,7 +1697,7 @@ export function createConversationV4Gateway(
       } catch (error) {
         if (!(error instanceof SessionLifecycleError) || error.code !== "sessionNotFound")
           throw error;
-        context.logger?.warn("ZCode Protocol v4 cold resume has no persisted session", {
+        context.logger?.warn("Onyx Protocol v4 cold resume has no persisted session", {
           activeSessionCount: context.sessions.size,
           event: "zcode_protocol.v4.resume_persisted_missing",
           module: "bootstrap.zcode_protocol",
@@ -2153,7 +2153,7 @@ export function createConversationV4Gateway(
       };
     },
     onError: (scope, error, errorContext) =>
-      context.logger?.warn("ZCode Protocol v4 gateway error", {
+      context.logger?.warn("Onyx Protocol v4 gateway error", {
         ...errorContext,
         error: error instanceof Error ? error.message : String(error),
         event: "zcode_protocol.v4.gateway_error",

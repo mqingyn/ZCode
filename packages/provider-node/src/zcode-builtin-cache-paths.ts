@@ -50,7 +50,7 @@ export function createZCodeBuiltinEndpointKey(zcodeEndpointOrigin: string): stri
 
 export function normalizeZCodeBuiltinEndpointOrigin(value: string): string {
   const normalized = value.trim();
-  if (!normalized) throw new Error("ZCode Built-in Endpoint Origin 不能为空");
+  if (!normalized) throw new Error("Onyx Built-in Endpoint Origin 不能为空");
   const url = new URL(normalized);
   if (url.protocol !== "http:" && url.protocol !== "https:") {
     throw new Error("ZCode Built-in Endpoint Origin 只支持 HTTP(S)");

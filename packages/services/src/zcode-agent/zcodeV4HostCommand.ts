@@ -105,7 +105,7 @@ export class ZCodeV4CommandRejectedError extends Error {
         `${ack.reasonCode ? ` (${ack.reasonCode})` : ""}` +
         `${ack.message ? `: ${ack.message}` : ""} — ${contextMessage}`,
     );
-    this.name = "ZCodeV4CommandRejectedError";
+    this.name = "OnyxV4CommandRejectedError";
   }
 }
 

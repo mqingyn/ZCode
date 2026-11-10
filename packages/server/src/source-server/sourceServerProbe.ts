@@ -115,7 +115,7 @@ function warnUnsupportedLibc(platform: string, libcText: string, context: Transp
     phase: "probe",
     level: "warn",
     message:
-      `${detected} glibc ${required} required by the bundled ZCode Source Server runtime. ZCode Source Server may fail to start. ` +
+      `${detected} glibc ${required} required by the bundled Onyx Source Server runtime. Onyx Source Server may fail to start. ` +
       "Continuing installation or connection.",
   });
 }

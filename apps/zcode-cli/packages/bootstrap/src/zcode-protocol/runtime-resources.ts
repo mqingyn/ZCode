@@ -7,9 +7,9 @@ export class ProtocolRuntimeResources {
   private readonly apps = new Set<ZCodeApp>();
   private closePromise?: Promise<void>;
 
-  constructor(private readonly factory: ZCodeProtocolAgentDependencies["createZCodeApp"]) {}
+  constructor(private readonly factory: ZCodeProtocolAgentDependencies["createOnyxApp"]) {}
 
-  readonly create: ZCodeProtocolAgentDependencies["createZCodeApp"] = async (options) => {
+  readonly create: ZCodeProtocolAgentDependencies["createOnyxApp"] = async (options) => {
     this.assertServing();
     const app = await this.factory(options);
     const originalClose = app.close?.bind(app);
@@ -34,7 +34,7 @@ export class ProtocolRuntimeResources {
   };
 
   assertServing(): void {
-    if (this.stopping) throw new Error("ZCode Protocol runtime is stopping");
+    if (this.stopping) throw new Error("Onyx Protocol runtime is stopping");
   }
 
   close(): Promise<void> {

@@ -133,10 +133,10 @@ function collectWindowsForbiddenAppInstallDirs(
   const candidates = [
     options.appInstallDir,
     readEnvValue(env, ZCODE_WINDOWS_APP_INSTALL_DIR_ENV),
-    programFiles ? win32.join(programFiles, "ZCode") : null,
-    programFilesX86 ? win32.join(programFilesX86, "ZCode") : null,
-    programW6432 ? win32.join(programW6432, "ZCode") : null,
-    localAppData ? win32.join(localAppData, "Programs", "ZCode") : null,
+    programFiles ? win32.join(programFiles, "Onyx") : null,
+    programFilesX86 ? win32.join(programFilesX86, "Onyx") : null,
+    programW6432 ? win32.join(programW6432, "Onyx") : null,
+    localAppData ? win32.join(localAppData, "Programs", "Onyx") : null,
   ];
   const seen = new Set<string>();
   const result: string[] = [];

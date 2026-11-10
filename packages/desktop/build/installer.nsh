@@ -15,7 +15,7 @@
 !endif
 
 !ifndef ZCODE_INSTALL_MANIFEST_NAME
-  !define ZCODE_INSTALL_MANIFEST_NAME ".zcode-install-manifest"
+  !define ZCODE_INSTALL_MANIFEST_NAME ".onyx-install-manifest"
 !endif
 
 !ifndef ZCODE_UNINSTALLER_LOG_PATH

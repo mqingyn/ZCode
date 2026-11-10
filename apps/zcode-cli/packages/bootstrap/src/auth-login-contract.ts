@@ -80,7 +80,7 @@ export class ZCodeCliLoginError extends Error {
     options: { cause?: unknown } = {},
   ) {
     super(message, options);
-    this.name = "ZCodeCliLoginError";
+    this.name = "OnyxCliLoginError";
     this.code = code;
   }
 }

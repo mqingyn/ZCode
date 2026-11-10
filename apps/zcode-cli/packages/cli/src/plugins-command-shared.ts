@@ -15,16 +15,16 @@ export type PluginScope = "user" | "workspace";
  * 避免 `zcode plugins list` 这类轻命令把整个 bootstrap 图提前拉起来。
  */
 export const BOOTSTRAP_EXPORTS = {
-  addMarketplace: "addZCodePluginMarketplace",
-  getPluginsOverview: "getZCodePluginsOverview",
-  installPlugin: "installZCodeMarketplacePlugin",
-  listPlugins: "listZCodePlugins",
-  removeMarketplace: "removeZCodePluginMarketplace",
-  setPluginEnabled: "setZCodePluginEnabled",
-  uninstallPlugin: "uninstallZCodeMarketplacePlugin",
-  updateMarketplace: "updateZCodePluginMarketplace",
-  updatePlugin: "updateZCodeMarketplacePlugin",
-  validatePluginPath: "validateZCodePluginPath",
+  addMarketplace: "addOnyxPluginMarketplace",
+  getPluginsOverview: "getOnyxPluginsOverview",
+  installPlugin: "installOnyxMarketplacePlugin",
+  listPlugins: "listOnyxPlugins",
+  removeMarketplace: "removeOnyxPluginMarketplace",
+  setPluginEnabled: "setOnyxPluginEnabled",
+  uninstallPlugin: "uninstallOnyxMarketplacePlugin",
+  updateMarketplace: "updateOnyxPluginMarketplace",
+  updatePlugin: "updateOnyxMarketplacePlugin",
+  validatePluginPath: "validateOnyxPluginPath",
 } as const satisfies Record<string, keyof BootstrapModule>;
 
 export type PluginDepName = keyof typeof BOOTSTRAP_EXPORTS;

@@ -11,7 +11,7 @@ export const OFFICIAL_COMMAND_ROUTES: readonly { prefix: string; pluginId: strin
 ];
 
 /** 端点自己产生的错误类型（invalid / auth / network），经响应头告诉 CLI，CLI 据此区分网络错误和服务端错误。 */
-export const OFFICIAL_ENDPOINT_ERROR_HEADER = "X-ZCode-Official-Endpoint-Error";
+export const OFFICIAL_ENDPOINT_ERROR_HEADER = "X-Onyx-Official-Endpoint-Error";
 
 /** 发起命令的会话所在的 workspace；与该会话的 MCP 连接用同一对值。 */
 export interface OfficialCommandWorkspace {

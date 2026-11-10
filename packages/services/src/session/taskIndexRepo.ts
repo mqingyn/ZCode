@@ -587,7 +587,7 @@ export class TaskIndexRepo {
       }
       db.exec("COMMIT");
       if (migrated > 0) {
-        logger.info(undefined, `已迁移 legacy ACP task_id 到 ZCode session id 数量=${migrated}`);
+        logger.info(undefined, `已迁移 legacy ACP task_id 到 Onyx session id 数量=${migrated}`);
       }
     } catch (error) {
       db.exec("ROLLBACK");
@@ -1249,7 +1249,7 @@ export class TaskIndexRepo {
         WHERE (@workspace_key IS NULL OR workspace_key = @workspace_key)
           AND cli_created_at IS NOT NULL
           AND (@include_deleted = 1 OR (deleted = 0 AND coalesce(cli_deleted,0) = 0))
-          -- Bugfix: ZCode Agent 列表只接受当前 glm provider；Claude Code 导入也属于非 glm 历史数据。
+          -- Bugfix: Onyx Agent 列表只接受当前 glm provider；Claude Code 导入也属于非 glm 历史数据。
           AND (@provider IS NULL OR provider = @provider)
           AND (@pinned IS NULL OR pinned = @pinned)
           AND (@archived IS NULL OR archived = @archived)

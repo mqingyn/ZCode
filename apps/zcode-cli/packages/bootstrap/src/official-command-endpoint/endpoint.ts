@@ -138,7 +138,7 @@ export function createOfficialCommandEndpoint(
       if (typeof value === "string") headers.set(name, value);
     }
     for (const [name, value] of Object.entries(auth.headers)) headers.set(name, value);
-    if (options.appVersion) headers.set("X-ZCode-App-Version", options.appVersion);
+    if (options.appVersion) headers.set("X-Onyx-App-Version", options.appVersion);
 
     const method = (req.method ?? "GET").toUpperCase();
     const hasBody = method !== "GET" && method !== "HEAD";

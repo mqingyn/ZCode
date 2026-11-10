@@ -26,7 +26,7 @@ export async function ensureRemoteServerDeviceMid(
     return await ensureDeviceMid();
   } catch (error) {
     options.log(
-      "telemetry deviceMid 初始化失败，ZCode endpoint 请求将不带 X-Device-Mid:",
+      "telemetry deviceMid 初始化失败，Onyx endpoint 请求将不带 X-Device-Mid:",
       error instanceof Error ? error.message : String(error),
     );
     return undefined;

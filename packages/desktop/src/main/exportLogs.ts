@@ -1144,7 +1144,7 @@ export async function createFeedbackLogArchiveFromExportLogs(
   return createFeedbackDiagnosticArchive({
     sources: [
       { directory: join(sourceDir, "logs"), archivePrefix: "logs" },
-      { directory: getZCodeCliLogDir(), archivePrefix: ".zcode/cli/log" },
+      { directory: getZCodeCliLogDir(), archivePrefix: ".onyx/cli/log" },
       {
         directory: getZCodeCliDir(),
         archivePrefix: ".onyx/cli",
@@ -1154,11 +1154,11 @@ export async function createFeedbackLogArchiveFromExportLogs(
       },
       {
         directory: join(getZCodeCliDir(), "rollout"),
-        archivePrefix: ".zcode/cli/rollout",
+        archivePrefix: ".onyx/cli/rollout",
       },
       {
         directory: getCuaHelperRunDir(),
-        archivePrefix: ".zcode/computer-use/run",
+        archivePrefix: ".onyx/computer-use/run",
         exitLogsOnly: true,
       },
     ],

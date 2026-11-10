@@ -144,7 +144,7 @@ export interface CreateMcpAdapterOptions {
     /**
      * 当前 ZCode API origin。stdio 形态没有 `url` 可供校验，targetOrigin 只能由宿主给出
      * ——插件因此无法把身份头导向别的 origin。
-     * 与 trustedOrigins 的 `resolveZCodeApiOrigin` 必须同源，否则两侧判定会分叉。
+     * 与 trustedOrigins 的 `resolveOnyxApiOrigin` 必须同源，否则两侧判定会分叉。
      */
     resolveZCodeApiOrigin?: () => string;
     workspaceIdentity?: string;

@@ -55,7 +55,7 @@ export class ZCodeAttachmentFaultError extends Error {
       options?.message ?? code,
       options?.cause === undefined ? undefined : { cause: options.cause },
     );
-    this.name = "ZCodeAttachmentFaultError";
+    this.name = "OnyxAttachmentFaultError";
     this.code = code;
   }
 }
