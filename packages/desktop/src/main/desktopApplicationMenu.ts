@@ -350,6 +350,16 @@ function buildApplicationMenuTemplate(options: {
           label: getLabel(desktopMenuMessageIds.helpExportLogs),
           click: () => void options.executeDesktopCommand(DesktopCommandIds.ExportLogs),
         },
+        // Onyx 个人构建：一键安装 onyx CLI 命令包装器（见 installOnyxCliCommand.ts）。
+        ...(process.platform === "darwin"
+          ? [
+              {
+                label: getLabel(desktopMenuMessageIds.helpInstallCliCommand),
+                click: () =>
+                  void options.executeDesktopCommand(DesktopCommandIds.InstallOnyxCliCommand),
+              },
+            ]
+          : []),
         { type: "separator" as const },
         {
           label: getLabel(desktopMenuMessageIds.helpClearAllData),

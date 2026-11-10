@@ -37,6 +37,7 @@ import {
   resolveDesktopZoomLevelFromFactor,
 } from "./desktopZoom.js";
 import { exportLogs } from "./exportLogs.js";
+import { installOnyxCliCommand } from "./installOnyxCliCommand.js";
 import { openResourceManager } from "./resourceManagerWindow.js";
 
 export const HELP_TOGGLE_DEV_TOOLS_MENU_ID = "help.toggle-dev-tools";
@@ -617,6 +618,10 @@ export async function executeDesktopCommand(options: {
       return;
     case DesktopCommandIds.ExportLogs:
       await exportLogs();
+      return;
+    case DesktopCommandIds.InstallOnyxCliCommand:
+      // Onyx 个人构建：安装 onyx 命令行包装器（见 installOnyxCliCommand.ts）。
+      await installOnyxCliCommand();
       return;
     case DesktopCommandIds.PullMobileLogs:
       await options.pullMobileLogs?.(targetWindow?.id);
