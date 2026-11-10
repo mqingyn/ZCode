@@ -29,6 +29,7 @@
 | `fe6a6cf3` | 图标 Apple 网格 82% 边距（修 Dock 运行时变大）+ 启动 splash 换 Onyx 环 | 28 | 二进制重渲 + HTML 内嵌 SVG 替换 |
 | `a1ad2edd` | 禁用官方 Coding Plan 网关改写（模型请求直连原始 URL） | 1 | 定点常量守卫 |
 | `2c9bd8ac` | CLI 命令彻底改名 zcode→onyx | 14 | bin 字段 + 打包脚本命名 + Usage 文本 + TUI 品牌 |
+| `f9ec1bad` | 菜单一键安装 onyx CLI 命令 | 5 | 新增安装器模块 + 命令 ID/文案/菜单/handler 四点接线 |
 | `cc35917d` | 清除剩余 Z 字标（4 处内嵌 SVG） | 4 | 组件/HTML 内嵌 SVG 替换 |
 
 基线：上游 `a9fe401e chore: sync ZCode source v3.17.2`。
@@ -190,6 +191,19 @@
 **副作用核实（比预判更干净）**：搜索加速的 shell prelude 默认后端是 `native-binaries`（bfs/ugrep/rg 绝对路径），`zcode __internal-search` 的 internal-cli 后端只在测试夹具中出现、生产无引用——命令改名对搜索加速**零影响**。桌面版 spawn 的是包内资源路径的 agent，不经 PATH 命令名。
 
 **刻意不改**：`dist/zcode.cjs` 内部文件名、`pnpm build:zcode` 脚本名、上游文档（`apps/zcode-cli/docs/**`、README CLI 章节）——dev/文档面改名只有 sync 冲突没有收益；命令名映射以本节为准。
+
+### `f9ec1bad` — 菜单一键安装 onyx CLI 命令
+
+| 文件 | 锚点 | 改动 |
+| --- | --- | --- |
+| `packages/desktop/src/main/installOnyxCliCommand.ts` | 新增文件 | 安装器：macOS only；校验包内 `Resources/glm/zcode.cjs` 存在 → 写 `~/.local/bin/onyx` 包装器（`ELECTRON_RUN_AS_NODE=1 exec <Electron> <bundle>`，0o755）→ PATH 检查，缺 PATH 时弹窗给出 `.zshrc` 导出提示 |
+| `packages/shared/src/platform.ts` | `DesktopCommandIds.InstallOnyxCliCommand` | 新命令 ID |
+| `packages/shared/src/desktopMenu.ts` | `helpInstallCliCommand` + zh/en 文案 | 「安装 onyx 命令行工具 / Install onyx command」 |
+| `packages/desktop/src/main/desktopApplicationMenu.ts` | 帮助菜单「导出日志」后 | darwin 条件渲染菜单项 |
+| `packages/desktop/src/main/desktopCommandHandlers.ts` | dispatch `InstallOnyxCliCommand` | 调用安装器 |
+
+**已实测**（对官方 ZCode.app 包模拟安装流程）：`~/.local/bin/onyx` 包装器生成后 `onyx --version`（0.17.1）、`onyx doctor` 正常——机制与打包产物无关，Onyx.app 同构。
+**设计要点**：复用包内 Electron 作 Node 运行时，目标机器无需安装 Node；包装器含 Generated 注释，重复点击菜单安全幂等。
 
 ## 四、冲突高发预警（按改动性质分级）
 
