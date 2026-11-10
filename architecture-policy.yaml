@@ -1188,14 +1188,26 @@ global:
   # 临时时间戳（2026-09-10）：unmanaged-new-file 只约束此日期之后首次入库的文件。
   # 基于领先 staging 很多的分支开工时，merge-base 之前的"新增"文件不应被追溯。
   newFilesEnforcedSince: "2026-09-10"
-  acceptedUpstreamCommits: []
+  # Onyx 个人 fork：登记历次上游 sync 提交，其引入的文件不受 unmanaged-new-file 追溯。
+  acceptedUpstreamCommits:
+    - commit: a9fe401eede6e6e5e01be9048679c206fe6f02d9
+      previousHead: a60ba6a7e5a06742270ca605f5d2cc2766afa7e1
+      reason: Onyx 个人 fork 上游 v3.17.2 同步
+    - commit: a60ba6a7e5a06742270ca605f5d2cc2766afa7e1
+      previousHead: 3c5b227649371507ddc4eb46ac5133afe6db1cab
+      reason: Onyx 个人 fork 上游同步
+    - commit: 3c5b227649371507ddc4eb46ac5133afe6db1cab
+      previousHead: 0a1fc56d279fd1001f78387bd81aec1c26767411
+      reason: Onyx 个人 fork 上游同步
+    - commit: 0a1fc56d279fd1001f78387bd81aec1c26767411
+      previousHead: aac4755666d09fdcd70272fcf063c077a639015f
+      reason: Onyx 个人 fork 上游 v3.15.1 更新
   maxFileLines: 800
   maxContractLines: 300
   maxPublicMethods: 12
   forbidCycles: true
   forbidDeepImports: true
   managedOnly: true
-  acceptedUpstreamSnapshot: scripts/architecture/upstream-snapshot.json
 
 exceptions:
   - id: session-features-attribution-header-edit
