@@ -402,7 +402,7 @@ function showZCodeEndpointPromptWindow(options: {
     // 这里改为主进程创建受控 modal 输入窗，确保 Custom... 始终有可见交互入口。
     void promptWindow.loadURL(
       `data:text/html;charset=utf-8,${encodeURIComponent(
-        buildOnyxEndpointPromptHtml(options.currentValue),
+        buildZCodeEndpointPromptHtml(options.currentValue),
       )}`,
     );
   });

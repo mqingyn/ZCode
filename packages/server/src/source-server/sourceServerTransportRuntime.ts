@@ -50,10 +50,10 @@ export function readStructuredCommandError(value: string): string | null {
 }
 
 /** 读取 Server CLI --json 失败结果里的公开错误码；没有或不是公开码时返回 null。 */
-export function readStructuredCommandCode(value: string): PublicOnyxErrorCode | null {
+export function readStructuredCommandCode(value: string): PublicZCodeErrorCode | null {
   try {
     const code = readLastJsonLine(value).code;
-    return isPublicOnyxErrorCode(code) ? code : null;
+    return isPublicZCodeErrorCode(code) ? code : null;
   } catch {
     return null;
   }

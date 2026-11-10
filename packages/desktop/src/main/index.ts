@@ -264,7 +264,7 @@ import { registerRendererHeapSampleIpc } from "./processResourceRendererHeapSour
 import {
   registerDesktopZCodeDataSizeTelemetry,
   stopDesktopZCodeDataSizeTelemetry,
-} from "./desktopOnyxDataSizeTelemetry.js";
+} from "./desktopZCodeDataSizeTelemetry.js";
 import { configureDesktopMcpTelemetry, reportMcpTelemetryToArms } from "./desktopMcpTelemetry.js";
 import {
   configureDesktopNetworkTelemetry,

@@ -292,7 +292,7 @@ export class DockerBackend implements IRemoteBackend {
               ? `当前系统未检测到可用的 Docker 环境：${detail}`
               : "当前系统未检测到可用的 Docker 环境",
           ),
-          { code: "remote-connection-unknown" satisfies PublicOnyxErrorCode },
+          { code: "remote-connection-unknown" satisfies PublicZCodeErrorCode },
         );
       });
     }

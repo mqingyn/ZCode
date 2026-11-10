@@ -6,7 +6,7 @@ import {
 import {
   materializeBundledZCodeBuiltinProviderConfig,
   readBundledZCodeBuiltinProviderConfig,
-} from "./bundledOnyxBuiltinProviderConfig.js";
+} from "./bundledZCodeBuiltinProviderConfig.js";
 import { createHttpServer, resolveHttpServerId } from "./http.js";
 
 async function main(): Promise<void> {

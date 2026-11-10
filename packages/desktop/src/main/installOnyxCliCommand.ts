@@ -5,7 +5,7 @@
  */
 import { app, dialog } from "electron";
 import { mkdir, writeFile, access, constants } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 
 const MACOS_BIN_DIR = "~/.local/bin";
 

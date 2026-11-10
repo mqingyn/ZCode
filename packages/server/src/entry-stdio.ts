@@ -17,7 +17,7 @@ import { ensureRemoteServerDeviceMid } from "./stdioDeviceMid.js";
 import {
   materializeBundledZCodeBuiltinProviderConfig,
   readBundledZCodeBuiltinProviderConfig,
-} from "./bundledOnyxBuiltinProviderConfig.js";
+} from "./bundledZCodeBuiltinProviderConfig.js";
 
 // In stdio mode, all logging goes to stderr
 const log = (...args: unknown[]) =>
