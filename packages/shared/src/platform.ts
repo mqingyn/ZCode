@@ -710,7 +710,6 @@ export const DesktopCommandIds = {
   SetZCodeEndpointCustom: "setOnyxEndpointCustom",
   ResetZCodeEndpoint: "resetOnyxEndpoint",
   ClearAllData: "clearAllData",
-  InstallOnyxCliCommand: "installOnyxCliCommand",
   ClearCodingPlanWebviewStorage: "clearCodingPlanWebviewStorage",
   GetCuaOsSupport: "getCuaOsSupport",
 } as const;

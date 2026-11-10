@@ -50,9 +50,6 @@ const cliWorkspaceBuilds = [
   { packageName: "@zcode/i18n", packageDir: "i18n" },
   { packageName: "@zcode/telemetry", packageDir: "telemetry" },
   { packageName: "@zcode/bootstrap", packageDir: "bootstrap" },
-  // Onyx 个人构建：桌面包附带 TUI 运行时（stage-tui-runtime-into-glm.mjs），
-  // agent bundle 的 @zcode/tui 是 external，必须先产出其 dist。
-  { packageName: "@zcode/tui", packageDir: "tui" },
 ];
 // 官方插件 manifest 可以在 server.js 缺失时被 filesystem seed，直到 session
 // 连接 MCP 才报错，造成“Helper ready 但 CUA 工具不存在”的半启动状态。所有普通 Dev 必需的
@@ -89,9 +86,6 @@ const requiredDevPluginRuntimeBuilds = [
   { packageName: "@zcode/zcode-site-plugin", artifactPath: "zcode-site-plugin/dist/server.mjs" },
 ];
 const defaultBuildFilters = [
-  // Onyx 个人构建：TUI 运行时收集器（stage-tui-runtime-into-glm.mjs）需要其 dist，
-  // 须在 @zcode/tui 之前构建（该包在 packages/ 而非 agent 子 workspace）。
-  "@zcode/model-option-map",
   ...cliWorkspaceBuilds.map(({ packageName }) => packageName),
   ...requiredDevPluginRuntimeBuilds.map(({ packageName }) => packageName),
 ];

@@ -687,32 +687,6 @@ export default {
     await stageElectronNotices(extractedLicenseRoot, resources, framework.version);
   },
   afterPack: async (context) => {
-    // Onyx 个人构建：extraResources 会忽略被复制目录顶层的 node_modules（filter 无法覆盖），
-    // 在 afterPack 直接把 staged 的 glm/node_modules（TUI 运行时）拷进 .app——
-    // afterPack 位于 zip/DMG 出包之前，产物必然包含。见 stage-tui-runtime-into-glm.mjs。
-    runTimedSync("afterPack:install-glm-tui-node-modules", () => {
-      const stagedNodeModules = resolve(
-        desktopPackageRoot,
-        `bundled-agents/${targetPlatform.key}/glm/node_modules`,
-      );
-      if (!existsSync(stagedNodeModules)) {
-        console.log("[afterPack] glm/node_modules 不存在，跳过 TUI 运行时拷贝");
-        return;
-      }
-      const targetNodeModules = join(
-        context.appOutDir,
-        `${desktopProductIdentity.productName}.app`,
-        "Contents",
-        "Resources",
-        "glm",
-        "node_modules",
-      );
-      rmSync(targetNodeModules, { force: true, recursive: true });
-      cpSync(stagedNodeModules, targetNodeModules, { recursive: true });
-      console.log(
-        `[afterPack] glm/node_modules (TUI runtime) installed -> ${targetNodeModules}`,
-      );
-    });
     const actualWindowsTarget =
       context.electronPlatformName === "win32"
         ? resolveElectronBuilderWindowsTarget({
@@ -854,15 +828,7 @@ export default {
       // 不再随包内置独立 Node 二进制。远端 SSH/WSL 仍走原生二进制（无 Electron）。
       from: `bundled-agents/${targetPlatform.key}/glm`,
       to: "glm",
-      // Onyx 个人构建：glm/node_modules（TUI 运行时，见 stage-tui-runtime-into-glm.mjs）
-      // 必须显式包含——extraResources 默认忽略被复制目录顶层的 node_modules（嵌套的不管）。
-      filter: [
-        "**/*",
-        "!**/*.map",
-        "node_modules/**",
-        "!node_modules/**/.bin/**",
-        "!node_modules/**/node_modules/**/*.map",
-      ],
+      filter: ["**/*", "!**/*.map"],
     },
     {
       // agent shell 之前完全依赖宿主系统 PATH，GUI 启动时经常拿不到用户自己装的 rg。
