@@ -228,6 +228,14 @@
 
 **架构门禁（d6d2452b）**：pre-push 的架构检查会把「上游 sync（v3.15.1→v3.17.2）引入的新文件」判为 unmanaged-new-file——根因是 fork 的 `architecture-policy.yaml` 未登记 sync 提交。已按机制设计把四次 sync 写入 `acceptedUpstreamCommits`（commit+previousHead+reason，与 acceptedUpstreamSnapshot 互斥、已移除 snapshot 行）。**后续每次上游 sync 后必须把新的 sync commit 追加进该列表**，否则 pre-push 会被误报拦截。
 
+### `0ca655ab` — 回退：移除 TUI 运行时集成与「安装 onyx 命令行工具」菜单（用户决策）
+
+回退范围：删除 `stage-tui-runtime-into-glm.mjs` / `installOnyxCliCommand.ts` 两个新增文件；还原 `prepare-agent-node-bundle.mjs`（stageBundle 恢复同步版）、`electron-builder.config.js`（afterPack TUI 拷贝块删除、glm filter 还原 `["**/*","!**/*.map"]`）、`build-desktop-agent-cli.mjs`（移除 @zcode/tui 与 @zcode/model-option-map 构建项）、`platform.ts` / `desktopMenu.ts` / `desktopApplicationMenu.ts` / `desktopCommandHandlers.ts` 的命令 ID、文案、菜单项与 handler。
+
+保留：`ONYX_GATEWAY_REWRITE_DISABLED`（网关改写禁用独立于本两项）、全部 Onyx 命名/剥离/路径/图标等既有定制。`~/.local/bin/onyx` 若已手动创建不受影响（指向已安装的旧包，随包删除而失效）。typecheck 全绿。
+
+**维护注记**：如未来重新需要 TUI 集成，历史实现见本档案 `f02978f6` / `8bcd5ab4` / `b3ba6fa2` 三条记录；CLI 安装功能见 `f9ec1bad` / `e077dabc`。
+
 **教训（登记在案）**：字符串级批量替换必须排除 `${}` 插值区；跨进程“字符串契约”（错误消息 startsWith/includes 匹配）改名要两侧同步，先查消费侧再改生成侧。
 
 **修复（779e7caa，用户报告）**：`workspace-hook-config.ts` / `workspace-hook-mutation.ts` 的 `".zcode/config.json"` kind 字面量是批量替换漏网（带 `/config.json` 后缀不匹配精确模式），导致候选路径构造（已是 `.onyx`）与 kind 归类（仍是 `.zcode`）分裂——自动发现的 workspace hook 配置永远归错类、可编辑性校验必败。已对齐为 `.onyx/config.json`（`zcode.json` 平面文件名保留）。测试文件未同步（既定策略）。
