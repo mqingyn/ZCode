@@ -44,6 +44,7 @@
   2. i18n 键值分行（多行串）的合并脚本丢了值行——合并后用 typecheck 兜住；
   3. v3.18.0 新增 `@zcode/session-control` workspace 包和 `@napi-rs/keyring` 依赖，合并后必须 `pnpm install` + 构建新包。
 - `architecture-policy.yaml` 的 acceptedUpstreamCommits 已追加 b95ebaff（parent a9fe401e）。
+- **合并后审计（de01fcfe）**：上游 v3.18 新引入 `MANAGED_WORKTREE_HOME_SEGMENTS`（.zcode/worktrees）、localeBootstrap 的 setting.json 路径、ja/ko/ru 三个新语言包（各 133 处 ZCode）——均为迁移盲区，已统一收敛 .onyx/Onyx；wire 头与跨进程错误串契约核对一致。**sync 后审计新增两条机械复查**：① `git diff <旧sync>..HEAD -G'\.zcode' --name-only | grep -vE 'md|test|zcode-plugin'` 查上游新数据目录字面量；② 新增 i18n 语言包文件需全量替换 ZCode。
 - 验证：typecheck 0 错误 / lint 0 error / 复查命令组全过。
 
 
