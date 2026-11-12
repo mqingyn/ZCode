@@ -1841,6 +1841,10 @@ global:
   managedOnly: true
 
 exceptions:
+  - id: onyx-sync-source-server-connection-manager
+    rule: unmanaged-new-file
+    paths: [packages/desktop/src/host/sourceServerConnectionManager.ts]
+    reason: Onyx fork 上游 sync（0a1fc56d 引入、b95ebaff 重写）未受管 desktop host 文件；fork 仅承载上游内容与机械改名，不接管模块。
   - id: region-copy-suggested-prompts-edit
     rule: unmanaged-new-file
     paths: [packages/ui/src/v4/featureSuggestedPrompts.ts]
