@@ -46,7 +46,7 @@ export function buildZCodeSourceHeadersFromContext(
     ...ZCODE_SOURCE_HEADERS,
     "HTTP-Referer": endpointOrigin,
     "User-Agent": `Onyx/${appVersion ?? "unknown"}`,
-    ...(appVersion ? { "X-Onyx-App-Version": appVersion } : {}),
+    ...(appVersion ? { "X-ZCode-App-Version": appVersion } : {}),
     "X-Title": `Z Code@${sourceTitle}`,
     ...(platform && arch ? { "X-Platform": `${platform}-${arch}` } : {}),
     ...(releaseChannel ? { "X-Release-Channel": releaseChannel } : {}),

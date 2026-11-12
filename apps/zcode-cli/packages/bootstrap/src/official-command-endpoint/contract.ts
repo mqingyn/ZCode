@@ -11,12 +11,18 @@ export const OFFICIAL_COMMAND_ROUTES: readonly { prefix: string; pluginId: strin
 ];
 
 /** 端点自己产生的错误类型（invalid / auth / network），经响应头告诉 CLI，CLI 据此区分网络错误和服务端错误。 */
-export const OFFICIAL_ENDPOINT_ERROR_HEADER = "X-Onyx-Official-Endpoint-Error";
+export const OFFICIAL_ENDPOINT_ERROR_HEADER = "X-ZCode-Official-Endpoint-Error";
 
 /** 发起命令的会话所在的 workspace；与该会话的 MCP 连接用同一对值。 */
 export interface OfficialCommandWorkspace {
   workspacePath: string;
   workspaceIdentity?: string;
+}
+
+/** 端点为某个 session 观察到的事实。 */
+export interface OfficialCommandSessionObserver {
+  /** 收到 `POST /api/v1/sites/{siteId}/deployments` 时调用，早于取身份和转发，不看结果。 */
+  onSiteDeploymentRequested(): void;
 }
 
 export interface OfficialCommandEndpointOptions {
@@ -39,11 +45,12 @@ export interface OfficialCommandEndpointOptions {
 export interface OfficialCommandEndpoint {
   /**
    * 该 session 的 Bash/tool 子进程要带的 env；首次调用时才开始监听，同一 session 返回同一 token。
-   * workspace 记在 session 上，取身份头时带给 host。close 之后返回空对象。
+   * workspace 和 observer 记在 session 上，取身份头时带给 host。close 之后返回空对象。
    */
   envForSession(
     sessionId: string,
     workspace: OfficialCommandWorkspace,
+    observer?: OfficialCommandSessionObserver,
   ): Promise<Record<string, string>>;
   /** 作废全部 token、断开连接并删除 socket 目录；可重复调用。 */
   close(): Promise<void>;
