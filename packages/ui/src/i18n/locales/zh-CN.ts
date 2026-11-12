@@ -296,7 +296,7 @@ const zhCN: Record<string, string> = {
   "git.managedWorktree.error.bucket-exhausted": "无法分配 worktree 目录",
   "git.managedWorktree.error.worktree-dirty": "worktree 有未提交的改动",
   "git.managedWorktree.error.worktree-in-use": "有任务正在使用这个 worktree",
-  "git.managedWorktree.error.not-managed": "这个目录不是 ZCode 管理的 worktree",
+  "git.managedWorktree.error.not-managed": "这个目录不是 Onyx 管理的 worktree",
   "git.managedWorktree.error.local-only": "只有本地项目支持 worktree",
   "git.managedWorktree.error.git-failed": "Git 操作失败",
   "git.managedWorktree.error.task-immovable": "worktree 任务不能移动到其他项目",
@@ -332,7 +332,7 @@ const zhCN: Record<string, string> = {
     "暂时无法确认任务是否已启动，未做任何删除，请稍后再试",
   "git.managedWorktree.error.removing": "这个 worktree 正在删除，请稍后再试",
   "git.managedWorktree.dialog.title": "Worktrees",
-  "git.managedWorktree.dialog.description": "{project} 中由 ZCode 管理的 worktree",
+  "git.managedWorktree.dialog.description": "{project} 中由 Onyx 管理的 worktree",
   "git.managedWorktree.dialog.loadFailed": "无法读取 worktree 列表",
   "git.managedWorktree.dialog.empty": "还没有 worktree",
   "git.managedWorktree.dialog.detached": "detached · {sha}",
@@ -3665,7 +3665,7 @@ const zhCN: Record<string, string> = {
   "settings.notificationSoundDescription": "通知开启后，可单独关闭任务通知提示音。",
   "settings.mobilePush": "手机推送通知",
   "settings.mobilePushDescription":
-    "桌面不在身边时，任务完成、失败或需要确认会推送到已登录的 ZCode App。",
+    "桌面不在身边时，任务完成、失败或需要确认会推送到已登录的 Onyx App。",
   "notification.taskWithTitle": "任务：{title}",
   "notification.taskWaiting": "任务等待你的确认",
   "notification.completed": "任务已完成",
@@ -5382,11 +5382,11 @@ const zhCN: Record<string, string> = {
   "settings.plugins.store.showLess": "收起",
   "settings.plugins.store.install": "安装",
   // 带扩展的插件（docs/plugins/plugin-publishing.md §4.3–4.4）。档位名与完全访问原文复用 extensions.grants.*。
-  "settings.plugins.store.extension.requiresUpdate": "需要更新 ZCode",
+  "settings.plugins.store.extension.requiresUpdate": "需要更新 Onyx",
   "settings.plugins.store.extension.incompatibleHint":
-    "这个插件需要更新版本的 ZCode。更新 ZCode 后再安装。",
+    "这个插件需要更新版本的 Onyx。更新 Onyx 后再安装。",
   "settings.plugins.store.extension.title": "含常驻代码",
-  "settings.plugins.store.extension.description": "启用后，插件的扩展代码在 ZCode 里常驻运行。",
+  "settings.plugins.store.extension.description": "启用后，插件的扩展代码在 Onyx 里常驻运行。",
   "settings.plugins.store.extension.grantsTitle": "申请的权限",
   "settings.plugins.store.extension.noGrants": "不申请权限",
   "settings.plugins.store.extension.consentNote":
@@ -8567,9 +8567,9 @@ const zhCN: Record<string, string> = {
   "voiceInput.action.openPrivacySettings": "打开系统设置",
   "voiceInput.action.openSoundSettings": "打开声音设置",
   "voiceInput.error.permissionDenied.mac":
-    "ZCode 没有麦克风权限。请在「系统设置 › 隐私与安全性 › 麦克风」中允许 ZCode，部分系统版本需要重启应用后生效。",
+    "Onyx 没有麦克风权限。请在「系统设置 › 隐私与安全性 › 麦克风」中允许 Onyx，部分系统版本需要重启应用后生效。",
   "voiceInput.error.permissionDenied.windows":
-    "ZCode 没有麦克风权限。请在「设置 › 隐私和安全性 › 麦克风」中同时打开「麦克风访问权限」和「允许桌面应用访问麦克风」。",
+    "Onyx 没有麦克风权限。请在「设置 › 隐私和安全性 › 麦克风」中同时打开「麦克风访问权限」和「允许桌面应用访问麦克风」。",
   "voiceInput.error.permissionDenied.linux":
     "无法访问麦克风。请检查系统的麦克风权限和 PulseAudio / PipeWire 输入设备。",
   "voiceInput.error.silent": "没有收到麦克风声音。通常是系统麦克风权限未开启或选错了输入设备。",

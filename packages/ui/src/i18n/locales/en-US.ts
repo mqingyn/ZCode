@@ -374,7 +374,7 @@ const enUS: Record<string, string> = {
   "git.managedWorktree.error.bucket-exhausted": "Couldn't allocate a worktree folder",
   "git.managedWorktree.error.worktree-dirty": "The worktree has uncommitted changes",
   "git.managedWorktree.error.worktree-in-use": "A task is using this worktree",
-  "git.managedWorktree.error.not-managed": "This folder isn't a worktree managed by ZCode",
+  "git.managedWorktree.error.not-managed": "This folder isn't a worktree managed by Onyx",
   "git.managedWorktree.error.local-only": "Worktrees are available only for local projects",
   "git.managedWorktree.error.git-failed": "The Git operation failed",
   "git.managedWorktree.error.task-immovable": "Worktree tasks can't be moved to another project",
@@ -414,7 +414,7 @@ const enUS: Record<string, string> = {
     "Couldn't confirm whether the task started. Nothing was deleted. Try again later.",
   "git.managedWorktree.error.removing": "This worktree is being deleted. Try again later.",
   "git.managedWorktree.dialog.title": "Worktrees",
-  "git.managedWorktree.dialog.description": "Worktrees that ZCode manages for {project}",
+  "git.managedWorktree.dialog.description": "Worktrees that Onyx manages for {project}",
   "git.managedWorktree.dialog.loadFailed": "Couldn't load worktrees",
   "git.managedWorktree.dialog.empty": "No worktrees yet",
   "git.managedWorktree.dialog.detached": "detached · {sha}",
@@ -3919,7 +3919,7 @@ const enUS: Record<string, string> = {
     "When notifications are enabled, you can mute the task notification sound separately.",
   "settings.mobilePush": "Mobile push notifications",
   "settings.mobilePushDescription":
-    "When you are away from this desktop, completed, failed, or waiting tasks are pushed to the signed-in ZCode App.",
+    "When you are away from this desktop, completed, failed, or waiting tasks are pushed to the signed-in Onyx App.",
   "notification.taskWithTitle": "Task: {title}",
   "notification.taskWaiting": "Task waiting for your confirmation",
   "notification.completed": "Task completed",
@@ -5763,12 +5763,12 @@ const enUS: Record<string, string> = {
   "settings.plugins.store.viewMoreFew": "See {names}",
   "settings.plugins.store.showLess": "Show less",
   "settings.plugins.store.install": "Install",
-  "settings.plugins.store.extension.requiresUpdate": "Requires newer ZCode",
+  "settings.plugins.store.extension.requiresUpdate": "Requires newer Onyx",
   "settings.plugins.store.extension.incompatibleHint":
-    "This plugin needs a newer version of ZCode. Update ZCode, then install it.",
+    "This plugin needs a newer version of Onyx. Update Onyx, then install it.",
   "settings.plugins.store.extension.title": "Includes resident code",
   "settings.plugins.store.extension.description":
-    "When enabled, the plugin's extension code keeps running inside ZCode.",
+    "When enabled, the plugin's extension code keeps running inside Onyx.",
   "settings.plugins.store.extension.grantsTitle": "Requested permissions",
   "settings.plugins.store.extension.noGrants": "No permissions requested",
   "settings.plugins.store.extension.consentNote":
@@ -9048,9 +9048,9 @@ const enUS: Record<string, string> = {
   "voiceInput.action.openPrivacySettings": "Open System Settings",
   "voiceInput.action.openSoundSettings": "Open Sound Settings",
   "voiceInput.error.permissionDenied.mac":
-    "ZCode cannot use the microphone. Allow ZCode in System Settings › Privacy & Security › Microphone. On some macOS versions, restart the app after you change it.",
+    "Onyx cannot use the microphone. Allow Onyx in System Settings › Privacy & Security › Microphone. On some macOS versions, restart the app after you change it.",
   "voiceInput.error.permissionDenied.windows":
-    'ZCode cannot use the microphone. In Settings › Privacy & security › Microphone, turn on both "Microphone access" and "Let desktop apps access your microphone".',
+    'Onyx cannot use the microphone. In Settings › Privacy & security › Microphone, turn on both "Microphone access" and "Let desktop apps access your microphone".',
   "voiceInput.error.permissionDenied.linux":
     "Cannot access the microphone. Check the system microphone permission and the PulseAudio / PipeWire input device.",
   "voiceInput.error.silent":

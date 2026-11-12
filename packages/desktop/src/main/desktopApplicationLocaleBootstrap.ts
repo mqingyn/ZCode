@@ -19,7 +19,7 @@ function resolveBootstrapHomeDir(): string {
 export function resolveApplicationLocaleBootstrapSettingsFile(
   homePath: string = resolveBootstrapHomeDir(),
 ): string {
-  return join(homePath, ".zcode", "v2", "setting.json");
+  return join(homePath, ".onyx", "v2", "setting.json");
 }
 
 export function extractBootstrapApplicationLocale(rawValue: unknown): Locale | undefined {
