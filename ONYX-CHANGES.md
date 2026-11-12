@@ -32,7 +32,20 @@
 | `f9ec1bad` | 菜单一键安装 onyx CLI 命令 | 5 | 新增安装器模块 + 命令 ID/文案/菜单/handler 四点接线 |
 | `cc35917d` | 清除剩余 Z 字标（4 处内嵌 SVG） | 4 | 组件/HTML 内嵌 SVG 替换 |
 
-基线：上游 `a9fe401e chore: sync ZCode source v3.17.2`。
+基线：上游 `a9fe401e chore: sync ZCode source v3.17.2` → 合并 v3.18.0 于 `70734bc7`（见下）。
+
+## 合并记录：v3.18.0（70734bc7）
+
+- 规模：5099 文件 +429k/-44k；分叉点 a9fe401e（v3.17.2），合并 origin/main（b95ebaff）。
+- 冲突 16 处：modify/delete 3（上游删除，接受）；内容 13（上游结构 + Onyx 值，逐个手工合并）。
+- 上游定点文件大改但已合并保留我方开关：oauthService.ts(+417/-228)、node.ts(+361/-47)、SettingsPage.tsx(+142/-160)。
+- **新教训**：
+  1. **wire 协议头不可改名**（`X-ZCode-App-Version` 等 7 文件被清扫误改，已回退）——与 `.zcode-plugin` 同级的外部契约；
+  2. i18n 键值分行（多行串）的合并脚本丢了值行——合并后用 typecheck 兜住；
+  3. v3.18.0 新增 `@zcode/session-control` workspace 包和 `@napi-rs/keyring` 依赖，合并后必须 `pnpm install` + 构建新包。
+- `architecture-policy.yaml` 的 acceptedUpstreamCommits 已追加 b95ebaff（parent a9fe401e）。
+- 验证：typecheck 0 错误 / lint 0 error / 复查命令组全过。
+
 
 ## 三、变更档案
 
