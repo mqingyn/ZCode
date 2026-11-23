@@ -14,7 +14,7 @@ it("imports OAuth without reading an unrelated cached Team key, and re-encrypts 
   const root = await mkdtemp(join(tmpdir(), "live-profile-fixture-"));
   const sourceHome = join(root, "source");
   fixture.homeDir = join(root, "target");
-  fixture.credentialsFile = join(fixture.homeDir, ".zcode/v2/credentials.json");
+  fixture.credentialsFile = join(fixture.homeDir, ".onyx/v2/credentials.json");
   const sourceDirectory = join(sourceHome, ".zcode/v2");
   const previousHome = process.env.R3_LIVE_SOURCE_HOME;
   const previousSecret = process.env.ZCODE_CREDENTIAL_SECRET;
