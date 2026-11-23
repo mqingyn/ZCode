@@ -52,6 +52,25 @@
 4. **工作区忽略文件** `.zcodeignore` → `.onyxignore`（常量 + 文案 + 写入的文件头），属行为变更：旧 `.zcodeignore` 不再被读取。
 5. 架构门禁：登记 c5904686 / fec97590 / a4b44451 三条 sync 提交。
 
+### 用户可见文案收敛（b3a7def8）
+
+补做此前**从未纳入清扫**的目录：`packages/ui`、`packages/web`、`packages/web-share`、`packages/services`、
+`packages/shared`、`packages/provider*`、`packages/zcode-server-cli`、`apps/zcode-cli/packages/{core,bootstrap,cli,i18n,office-runtime,adapters,node-repl-host}`。
+共 131 处 / 61 文件，含：窗口标题 `ZCode / <workspace>`、手机远控页品牌词、分享页品牌与标题、
+MCP 设置分区名 `ZCode Agent`、内置技能描述、办公插件提示、错误兜底文案（compact/session failed 五处配对）、
+macOS 隔离属性代理名、打包元数据 author、server-cli 安装/更新提示。
+
+**方法（可复用）**：只替换“字符串字面量 / 模板字符串文本 / JSX 文本”中的**裸词** `ZCode`
+（`(?<![A-Za-z0-9_])ZCode(?![A-Za-z0-9_])`），因此 `ZCodeSessionStoreState`、`ZCodeAgentMcpStatusModeUnsupportedError`
+等标识符不受影响；保留清单：`X-ZCode-*`、`ZCode Han SC/JP`（字体）、`ZCode Protocol/1`、
+`ZCode Credential Encryption`（钥匙串条目名）、`com.zcode/`、`ZCode.xba`、`zcode.z.ai`。
+脚本：`/tmp/onyx-audit/apply-visible.py` + `residual-scan.py` + `candidates.py`（审计三件套）。
+
+**配对修复**：`feedbackLogArchive` 的日志正则与生成侧 `Onyx agent process exited unexpectedly` 对齐（此前只改了一半）。
+
+**刻意保留（非外露）**：`dev-docs`、`scripts/*`（开发工具）、`cli:zcode-site-plugin`（插件模板）、
+错误类 `this.name`、注释中的历史说明。
+
 ### 仍存在、本次未处理的差异（已知欠账）
 
 - `packages/ui`、`packages/web`、`packages/server`、`packages/client` 等目录**从未纳入字符串清扫**，仍有约 100 行用户可见的 ZCode 硬编码文案（窗口标题、MCP 设置分区名、内置技能描述、错误提示等）。建议单独立项处理，不与 upstream 合并混在一起。
