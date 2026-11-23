@@ -192,7 +192,7 @@ export async function runServerCli(
         // 或卸载接管的服务。锁被占用时直接失败（不等待、不停止现有服务），沿用 uninstall 的冲突输出。
         const restartLock = await acquireLifecycleCommandLock(
           layout,
-          "A ZCode Server update is already running",
+          "A Onyx Server update is already running",
         );
         try {
           return await runRestart(io, json, layout, runtimeOptions);
@@ -206,7 +206,7 @@ export async function runServerCli(
       case "update": {
         const updateLock = await acquireLifecycleCommandLock(
           layout,
-          "Another ZCode Server update is already running",
+          "Another Onyx Server update is already running",
         );
         const updateDaemonHandoff =
           runtimeOptions.updateDaemonHandoff ?? createUpdateDaemonHandoff();
@@ -236,7 +236,7 @@ export async function runServerCli(
       case "uninstall": {
         const uninstallLock = await acquireLifecycleCommandLock(
           layout,
-          "A ZCode Server update is already running",
+          "A Onyx Server update is already running",
         );
         try {
           return await runUninstall(io, json, layout);
@@ -324,7 +324,7 @@ async function runServe(
         const reused = existing.state === "ready" ? existing : await waitForControlReady(layout);
         if (json) stdout(io, reused);
         else
-          stdout(io, `ZCode Server ${reused.state} at ${reused.host ?? ""}:${reused.port ?? ""}`);
+          stdout(io, `Onyx Server ${reused.state} at ${reused.host ?? ""}:${reused.port ?? ""}`);
         return 0;
       }
       if (existing.runningTaskCount > 0) {
@@ -385,7 +385,7 @@ async function runServe(
         if (!isServiceLoadFailure(error)) throw error;
         serviceFallbackReason = (error as Error).message.trim();
         if (!json)
-          stderr(io, `Starting ZCode Server in detached fallback mode: ${serviceFallbackReason}`);
+          stderr(io, `Starting Onyx Server in detached fallback mode: ${serviceFallbackReason}`);
       }
     }
     if (!serviceStarted) {
@@ -451,7 +451,7 @@ async function runServe(
         baselineUpdatedAt,
         () =>
           childEarlyExit
-            ? `ZCode Server daemon exited before ready (code=${childEarlyExit.code ?? "null"} signal=${childEarlyExit.signal ?? "none"})`
+            ? `Onyx Server daemon exited before ready (code=${childEarlyExit.code ?? "null"} signal=${childEarlyExit.signal ?? "none"})`
             : undefined,
         serviceStarted,
         readStartupFailureFacts,
@@ -466,7 +466,7 @@ async function runServe(
     }
     // 回退原因只属于本次启动结果，不写入 status.json。
     if (json) stdout(io, serviceFallbackReason ? { ...started, serviceFallbackReason } : started);
-    else stdout(io, `ZCode Server ${started.state} at ${started.host ?? ""}:${started.port ?? ""}`);
+    else stdout(io, `Onyx Server ${started.state} at ${started.host ?? ""}:${started.port ?? ""}`);
     process.stdin.pause();
     process.stdin.destroy();
     return 0;
@@ -550,7 +550,7 @@ async function runServe(
     throw error;
   }
   if (json) stdout(io, status);
-  else stdout(io, `ZCode Server ${status.state} at ${status.host ?? ""}:${status.port ?? ""}`);
+  else stdout(io, `Onyx Server ${status.state} at ${status.host ?? ""}:${status.port ?? ""}`);
   await new Promise<void>((resolve) => {
     foregroundStopped = resolve;
     if (!daemon) {
@@ -662,7 +662,7 @@ async function runUninstall(
   json: boolean,
   layout: ReturnType<typeof resolveServerLayout>,
 ): Promise<number> {
-  const first = await (io.confirm?.("Type DELETE to uninstall ZCode Server: ") ??
+  const first = await (io.confirm?.("Type DELETE to uninstall Onyx Server: ") ??
     Promise.resolve(""));
   if (first !== "DELETE") throw new Error("Uninstall cancelled");
   const second = await (io.confirm?.("Type DELETE again to confirm: ") ?? Promise.resolve(""));
@@ -913,7 +913,7 @@ async function delegateLegacyCli(argv: readonly string[], io: CliIO): Promise<nu
   try {
     await access(candidate);
   } catch {
-    stdout(io, argv.length ? `Unknown command: ${argv[0]}` : "ZCode TUI");
+    stdout(io, argv.length ? `Unknown command: ${argv[0]}` : "Onyx TUI");
     return argv.length ? 1 : 0;
   }
   const child = fork(candidate, [...argv], { stdio: "inherit" });

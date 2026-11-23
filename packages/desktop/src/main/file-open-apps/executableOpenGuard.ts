@@ -147,7 +147,7 @@ export function createExecutableFileOpenConfirmer(
     const messages = MESSAGES[getLocale()];
     const options = {
       type: "warning" as const,
-      title: "ZCode",
+      title: "Onyx",
       message: messages.message,
       detail: messages.detail(win32.basename(basename(path))),
       buttons: [messages.cancel, messages.open],

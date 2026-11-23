@@ -487,8 +487,8 @@ async function confirmLinuxPackageAuthorization(): Promise<boolean> {
     title: isZh ? "可能需要系统授权" : "System authorization may be required",
     message: isZh ? "更新可能需要管理员权限" : "This update may require administrator permission",
     detail: isZh
-      ? "请留意系统授权窗口；如果你从终端启动 ZCode，请查看启动 ZCode 的终端。ZCode 不会读取或保存密码。"
-      : "Watch for a system authorization dialog. If you started ZCode from a terminal, check that terminal. ZCode does not read or store your password.",
+      ? "请留意系统授权窗口；如果你从终端启动 Onyx，请查看启动 Onyx 的终端。Onyx 不会读取或保存密码。"
+      : "Watch for a system authorization dialog. If you started Onyx from a terminal, check that terminal. Onyx does not read or store your password.",
     buttons: isZh ? ["继续", "稍后"] : ["Continue", "Later"],
     defaultId: 0,
     cancelId: 1,

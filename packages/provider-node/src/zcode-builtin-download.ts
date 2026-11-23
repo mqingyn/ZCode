@@ -97,7 +97,7 @@ export async function downloadZCodeBuiltinRelease(
         : error instanceof z.ZodError
           ? `invalid schema at ${error.issues[0]?.path.join(".") || "root"} (${error.issues[0]?.code})`
           : "invalid response";
-    throw new Error(`ZCode Built-in ${stage}: ${reason}`);
+    throw new Error(`Onyx Built-in ${stage}: ${reason}`);
   } finally {
     clearTimeout(timer);
   }

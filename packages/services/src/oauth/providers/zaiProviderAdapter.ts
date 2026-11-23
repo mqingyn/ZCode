@@ -382,7 +382,7 @@ export class ZaiProviderAdapter implements OAuthProviderAdapter {
     }
 
     if (this.providerId === ZAI_CN_PROVIDER_ID) {
-      if (!tokenSet.zcodeJwtToken) throw new Error("中国区 profile 缺少 ZCode JWT");
+      if (!tokenSet.zcodeJwtToken) throw new Error("中国区 profile 缺少 Onyx JWT");
       const payload = await readApiJson<ZaiBackendTokenPayload>(
         this.apiClient,
         this.config.userinfoUrl,

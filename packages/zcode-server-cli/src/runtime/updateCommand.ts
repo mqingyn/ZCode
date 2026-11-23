@@ -140,7 +140,7 @@ export async function runLocalArchiveUpdateCommand(
     await releaseManager.removePending();
     throw new ControlRequestError(
       SOURCE_SERVER_DOWNGRADE_UNCONFIRMED_ERROR_CODE,
-      `Downgrading ZCode Server from ${downgradedFrom} to ${prepared.version} requires --allow-downgrade`,
+      `Downgrading Onyx Server from ${downgradedFrom} to ${prepared.version} requires --allow-downgrade`,
       false,
     );
   }
@@ -158,7 +158,7 @@ export async function runLocalArchiveUpdateCommand(
     await pruneReleasesBestEffort(layout, previous);
     const result = { applied: true, installed: false, version: prepared.version };
     if (json) stdout(io, result);
-    else stdout(io, `ZCode Server ${prepared.version} updated`);
+    else stdout(io, `Onyx Server ${prepared.version} updated`);
     return 0;
   }
   await releaseManager.applyPendingWithTransaction(previous);
@@ -166,7 +166,7 @@ export async function runLocalArchiveUpdateCommand(
   await pruneReleasesBestEffort(layout, previous);
   const result = { applied: true, installed: previous === null, version: prepared.version };
   if (json) stdout(io, result);
-  else stdout(io, `ZCode Server ${prepared.version} ${previous ? "updated" : "installed"}`);
+  else stdout(io, `Onyx Server ${prepared.version} ${previous ? "updated" : "installed"}`);
   return 0;
 }
 
@@ -207,7 +207,7 @@ export async function runUpdateCommand(
   discardPreparedUpdate = "discard" in preparation ? preparation.discard : undefined;
   if (preparation.status === "up-to-date") {
     if (json) stdout(io, preparation);
-    else stdout(io, `ZCode Server ${preparation.version} is already up to date`);
+    else stdout(io, `Onyx Server ${preparation.version} is already up to date`);
     return 0;
   }
   if (!force && discardPreparedUpdate) {
@@ -237,7 +237,7 @@ export async function runUpdateCommand(
     await pruneReleasesBestEffort(layout, previous);
     const result = { applied: true, version: target.version };
     if (json) stdout(io, result);
-    else stdout(io, `ZCode Server ${target.version} updated`);
+    else stdout(io, `Onyx Server ${target.version} updated`);
     return 0;
   } catch (error: unknown) {
     if (isRunningTaskUpdateGuard(error)) {

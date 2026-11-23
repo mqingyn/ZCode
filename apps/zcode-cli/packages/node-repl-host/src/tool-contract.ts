@@ -26,7 +26,7 @@ export const NODE_REPL_SERVER_VERSION = "0.7.1";
 // 旧文案的 "Import only" 被读成受限运行时，加载 node:child_process 因而被判为沙箱逃逸，所以如实写明不是沙箱。
 // 路由禁令不能随之放宽：js 不经过 Bash 的 guarded 危险命令确认，模型把它当 shell 用就绕过了确认。
 const NODE_REPL_CAPABILITY_AND_ROUTING =
-  "The code runs unsandboxed with the ZCode agent's privileges and skips Bash's dangerous-command approval, " +
+  "The code runs unsandboxed with the Onyx agent's privileges and skips Bash's dangerous-command approval, " +
   "so never use it for shell, file, package inspection, or data processing work; use the dedicated tools. ";
 
 export const NODE_REPL_SERVER_INSTRUCTIONS =

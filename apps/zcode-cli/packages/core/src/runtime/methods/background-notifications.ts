@@ -372,7 +372,7 @@ export function shouldSuppressTaskNotificationRuntimeCommand(
   return true;
 }
 
-const PREVIOUS_RUNTIME_EXIT_REASON = "the ZCode runtime process exited before it finished";
+const PREVIOUS_RUNTIME_EXIT_REASON = "the Onyx runtime process exited before it finished";
 const BACKGROUND_LAUNCH_ACK_PREFIX = "Async agent launched successfully.";
 // 只认 `<task-notification>` 块里的 task-id：无进展提醒（`<background-agent-stall>`）也带同一个
 // task-id，但它不是终态通知，不能让崩溃前收到过提醒的 Agent 被当成「已通知」。
@@ -527,7 +527,7 @@ export async function collectPreviousRuntimeAgentInterruptions(
   }
   if (notifications.length === 0) return undefined;
   return [
-    "The previous ZCode runtime process for this workspace exited unexpectedly (for example, because the system ran out of memory).",
+    "The previous Onyx runtime process for this workspace exited unexpectedly (for example, because the system ran out of memory).",
     `${notifications.length === 1 ? "This background agent was" : "These background agents were"} still running and stopped with it. ${notifications.length === 1 ? "It" : "They"} will not report back.`,
     "Before relaunching, check what each agent already changed, then decide whether the work still needs to run. Tell the user if they are waiting on it.",
     "",

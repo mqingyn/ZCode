@@ -1671,7 +1671,7 @@ export class ZCodeAgentProcessManager {
           this.disposed ||
           (this.restartGenerationByWorkspaceKey.get(workspaceKey) ?? 0) !== startGeneration
         ) {
-          throw new Error("ZCode agent process start was cancelled.");
+          throw new Error("Onyx agent process start was cancelled.");
         }
       };
       try {

@@ -286,7 +286,7 @@ async function markImportedArtifactFromInternet(
   if (platform === "darwin") {
     // 格式：flags;hex 时间戳;代理名;事件 UUID。0081 = 已下载、尚未被用户放行。
     const timestamp = Math.floor(Date.now() / 1000).toString(16);
-    const value = `0081;${timestamp};ZCode;${randomUUID().toUpperCase()}`;
+    const value = `0081;${timestamp};Onyx;${randomUUID().toUpperCase()}`;
     await execFileAsync("/usr/bin/xattr", ["-w", "com.apple.quarantine", value, path]);
     return;
   }
@@ -3096,7 +3096,7 @@ export class ConversationShareService implements IConversationShareService {
     if (rows.length !== pages.reduce((total, page) => total + page.length, 0)) {
       throwServiceError(
         "invalid_conversation",
-        "Conversation contains rows this version cannot read; update ZCode and try again",
+        "Conversation contains rows this version cannot read; update Onyx and try again",
       );
     }
     for (let index = 1; index < rows.length; index += 1) {

@@ -221,7 +221,7 @@ function sanitizeDiagnosticLog(text: string): string {
     .split(/\r?\n/)
     .map((line) => {
       const match = line.match(
-        /^(\[\d{4}-\d{2}-\d{2}[ T][^\]]+\] \[error\].*?ZCode agent process exited unexpectedly[^{}]*)(\{.*\})$/,
+        /^(\[\d{4}-\d{2}-\d{2}[ T][^\]]+\] \[error\].*?(?:Onyx|ZCode) agent process exited unexpectedly[^{}]*)(\{.*\})$/,
       );
       if (!match) return line;
       try {

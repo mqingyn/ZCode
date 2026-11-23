@@ -54,34 +54,34 @@ const CRASH_RECOVERY_MESSAGES: Record<
 > = {
   "zh-CN": {
     message: "应用界面已崩溃",
-    detail: "可以重启 ZCode 继续使用。所有应用窗口将关闭，未保存的内容可能丢失。",
+    detail: "可以重启 Onyx 继续使用。所有应用窗口将关闭，未保存的内容可能丢失。",
     restart: "重启应用",
     later: "稍后",
   },
   "en-US": {
     message: "The app window has crashed",
-    detail: "Restart ZCode to continue. All app windows will close. Unsaved changes may be lost.",
+    detail: "Restart Onyx to continue. All app windows will close. Unsaved changes may be lost.",
     restart: "Restart app",
     later: "Later",
   },
   "ja-JP": {
     message: "アプリ画面がクラッシュしました",
     detail:
-      "ZCode を再起動して続行できます。すべてのアプリウィンドウが閉じ、未保存の内容が失われる場合があります。",
+      "Onyx を再起動して続行できます。すべてのアプリウィンドウが閉じ、未保存の内容が失われる場合があります。",
     restart: "アプリを再起動",
     later: "後で",
   },
   "ru-RU": {
     message: "Окно приложения аварийно завершило работу",
     detail:
-      "Перезапустите ZCode, чтобы продолжить. Все окна приложения будут закрыты. Несохранённые изменения могут быть потеряны.",
+      "Перезапустите Onyx, чтобы продолжить. Все окна приложения будут закрыты. Несохранённые изменения могут быть потеряны.",
     restart: "Перезапустить приложение",
     later: "Позже",
   },
   "ko-KR": {
     message: "앱 화면이 비정상 종료되었습니다",
     detail:
-      "ZCode를 다시 시작하여 계속할 수 있습니다. 모든 앱 창이 닫히며 저장하지 않은 내용이 손실될 수 있습니다.",
+      "Onyx를 다시 시작하여 계속할 수 있습니다. 모든 앱 창이 닫히며 저장하지 않은 내용이 손실될 수 있습니다.",
     restart: "앱 다시 시작",
     later: "나중에",
   },
@@ -118,7 +118,7 @@ export async function showRendererCrashDialog(options: {
     win.show();
     const result = await dialog.showMessageBox(win, {
       type: "error",
-      title: "ZCode",
+      title: "Onyx",
       message: messages.message,
       detail: messages.detail,
       buttons: [messages.restart, messages.later],

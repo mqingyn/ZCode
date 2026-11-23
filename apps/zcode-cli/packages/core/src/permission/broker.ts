@@ -43,7 +43,7 @@ export class DenyPermissionBroker implements PermissionBrokerPort {
 const FILE_WRITE_TOOL_NAMES = new Set(["Write", "Edit"]);
 /** 没有审批客户端时给模型的文字；`action` 是 `use <Tool>`，写文件时是 `write to <file_path>`。 */
 const NOT_GRANTED_MESSAGE = (action: string): string =>
-  `ZCode requested permissions to ${action}, but you haven't granted it yet.`;
+  `Onyx requested permissions to ${action}, but you haven't granted it yet.`;
 
 function notGrantedMessage(request: PermissionBrokerRequest): string {
   const filePath = readFilePath(request.input);

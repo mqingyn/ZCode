@@ -110,7 +110,7 @@ function logout(): void {
 
 async function renderManage(locale: "zh-CN" | "en-US"): Promise<void> {
   document.documentElement.lang = locale;
-  document.title = locale === "zh-CN" ? "我的分享 · ZCode" : "My shares · ZCode";
+  document.title = locale === "zh-CN" ? "我的分享 · Onyx" : "My shares · Onyx";
   const client = mockMode
     ? new (
         await import("../../web/src/share-manage/mockConversationShareManageClient.js")
@@ -131,7 +131,7 @@ async function renderManage(locale: "zh-CN" | "en-US"): Promise<void> {
 async function renderShare(): Promise<void> {
   const locale = resolveConversationShareRouteLocale(window.location.pathname);
   document.documentElement.lang = locale;
-  document.title = locale === "zh-CN" ? "ZCode 会话分享" : "ZCode Conversation Share";
+  document.title = locale === "zh-CN" ? "Onyx 会话分享" : "Onyx Conversation Share";
 
   const shareCode = resolveConversationShareCodeFromPath(window.location.pathname);
   if (!shareCode) {

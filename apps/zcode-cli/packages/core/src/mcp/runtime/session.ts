@@ -70,7 +70,7 @@ export function mcpUnavailableReason(serverClass: McpServerClass, name: string):
     case "disabled":
       return `Its MCP server '${name}' was disabled by the user. Continue without this tool.`;
     case "needs_auth":
-      return `Its MCP server '${name}' needs the user to re-authorize it before its tools work again. Ask the user to authorize it in the ZCode MCP settings. Continue without this tool and tell the user if the task depends on it.`;
+      return `Its MCP server '${name}' needs the user to re-authorize it before its tools work again. Ask the user to authorize it in the Onyx MCP settings. Continue without this tool and tell the user if the task depends on it.`;
     case "pending":
       return `Its MCP server '${name}' is still connecting; try again shortly.`;
     case "connected":

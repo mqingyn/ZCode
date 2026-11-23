@@ -59,7 +59,7 @@ export const searchPluginsToolEntry: ToolEntry = {
   metadata: {
     name: SEARCH_PLUGINS_TOOL_NAME,
     description:
-      "Search the official ZCode plugin marketplace for capabilities that would materially help the user's current task.",
+      "Search the official Onyx plugin marketplace for capabilities that would materially help the user's current task.",
     modelInstructions: [
       "Check existing tools and skills first. Proactively search when a plugin can materially improve the task, even when the user did not name a plugin.",
       "Search plugin names, multilingual descriptions, categories and example prompts. Use focused keywords and try alternative language/service terms when needed.",

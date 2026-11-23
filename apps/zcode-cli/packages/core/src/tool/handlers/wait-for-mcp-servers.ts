@@ -41,8 +41,8 @@ const RESULT_GROUPS = [
   ["connected", "Connected (their tools are now available — call them directly)"],
   ["failed", "Failed to connect"],
   ["stillPending", "Still connecting (try again or proceed without)"],
-  ["needsAuth", "Needs authentication (ask the user to authorize them in the ZCode MCP settings)"],
-  ["disabled", "Disabled (ask the user to enable them in the ZCode MCP settings)"],
+  ["needsAuth", "Needs authentication (ask the user to authorize them in the Onyx MCP settings)"],
+  ["disabled", "Disabled (ask the user to enable them in the Onyx MCP settings)"],
   ["unknown", "Unknown (no MCP server with this name is configured)"],
 ] as const;
 

@@ -106,7 +106,7 @@ export function renderMcpStatus(
   const needsAuth = mcp.needsAuth ?? [];
   if (needsAuth.length)
     paragraphs.push(
-      `The following MCP servers require authentication before their tools can be used:\n${limitedNames(needsAuth, needsAuth.length > MCP_DIAGNOSTIC_LIMIT ? ", " : "\n")}\n\nThe authorization cannot be completed from this conversation. If the user's request depends on one of these servers (even if they didn't name it explicitly), or they ask about it, tell them that it needs to be authorized — via the MCP server settings in ZCode — and that the capability is unavailable until they do. Otherwise carry on with the request and do not mention these servers. Do not ask the user for authorization codes, tokens, or callback URLs.`,
+      `The following MCP servers require authentication before their tools can be used:\n${limitedNames(needsAuth, needsAuth.length > MCP_DIAGNOSTIC_LIMIT ? ", " : "\n")}\n\nThe authorization cannot be completed from this conversation. If the user's request depends on one of these servers (even if they didn't name it explicitly), or they ask about it, tell them that it needs to be authorized — via the MCP server settings in Onyx — and that the capability is unavailable until they do. Otherwise carry on with the request and do not mention these servers. Do not ask the user for authorization codes, tokens, or callback URLs.`,
     );
   if (mcp.failed.length) {
     const lines = mcp.failed.slice(0, MCP_DIAGNOSTIC_LIMIT).map(mcpFailureLine).join("\n");
