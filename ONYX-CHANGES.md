@@ -34,6 +34,29 @@
 
 基线：上游 `a9fe401e chore: sync ZCode source v3.17.2` → 合并 v3.18.0 于 `70734bc7`（见下）。
 
+## 合并记录：v4.0.0（78caa6ce / merge commit）
+
+- 分叉点 `b95ebaff`（v3.18.0）→ 合并 `origin/main` = `a4b44451`（v4.0.0，含 v3.18.1、v3.18.2）。
+- 规模：2283 文件（+155k/−25k），713 新增 / 15 删除 / 100 重命名。
+- **冲突仅 7 处**（上次 16 处），按“上游新逻辑 + Onyx 文案”解决。上游重构点：
+  create-app 的 node-repl broker 改为惰性创建、protocol-entrypoint 新增 registry 强制关闭、
+  zcodeAgentService 新增 errorMessage 归一化、web 改为 webAuthService.resolveCallbackReturnTo、
+  i18n 用 voiceInput.permission.* 替换旧 error 键、process-name 新增 MCP 进程名与命令名。
+
+### 本次合并暴露并修复的历史遗留（重要）
+
+1. **契约断裂（影响已发布 v1.3180）**：早期“字符串清扫”误改 24 个内部标识符——插件方法映射键（`installZCodeMarketplacePlugin` 等 8 个）、桌面命令 ID、i18n 键（`chat.message.link.openInZCode`、`titleBar.menu.help.toggleZCodeStdioTap`）、错误类 `this.name`、注释里的代码引用。已全部还原为上游名。
+2. **语言包重建**：5 个 UI 语言包改为“以 upstream 原文为基准、仅替换值”，键集合与上游完全一致（7863/7867/7444×3），值套 Onyx、路径改 `.onyx`；保留登录剥离定制（`login.title`/`login.description`/`sidebar.profile.notLoggedIn`）。重建脚本教训：多行值可能用单引号，状态机必须按“行尾逗号”判定而非引号类型。
+3. **`.zcode` 数据路径补齐**（上游新增或从未清扫的目录）：browser-state、memory-diagnostics、dynamic-mcp-config、
+   desktopHostProcess 凭据、`packages/zcode-server-cli` 共享凭据与 server root、插件缓存、prompt-trajectory 等 20+ 处。
+4. **工作区忽略文件** `.zcodeignore` → `.onyxignore`（常量 + 文案 + 写入的文件头），属行为变更：旧 `.zcodeignore` 不再被读取。
+5. 架构门禁：登记 c5904686 / fec97590 / a4b44451 三条 sync 提交。
+
+### 仍存在、本次未处理的差异（已知欠账）
+
+- `packages/ui`、`packages/web`、`packages/server`、`packages/client` 等目录**从未纳入字符串清扫**，仍有约 100 行用户可见的 ZCode 硬编码文案（窗口标题、MCP 设置分区名、内置技能描述、错误提示等）。建议单独立项处理，不与 upstream 合并混在一起。
+- 上游 v4.0.0 新增功能中依赖官方服务的部分（如语音输入 ASR）在剥离环境下不可用。
+
 ## 合并记录：v3.18.0（70734bc7）
 
 - 规模：5099 文件 +429k/-44k；分叉点 a9fe401e（v3.17.2），合并 origin/main（b95ebaff）。

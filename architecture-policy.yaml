@@ -2035,6 +2035,15 @@ global:
   newFilesEnforcedSince: "2026-09-10"
   # Onyx 个人 fork：登记历次上游 sync 提交，其引入的文件不受 unmanaged-new-file 追溯。
   acceptedUpstreamCommits:
+    - commit: a4b4445141eb7d3b3e99eada9292775383bfc44e
+      previousHead: fec975905a2abd4c07e35c40d51fa097a2258ec9
+      reason: Onyx 个人 fork 上游 v4.0.0 同步
+    - commit: fec975905a2abd4c07e35c40d51fa097a2258ec9
+      previousHead: c5904686ea8341826b3affe5d993d06a134fa779
+      reason: Onyx 个人 fork 上游 v3.18.2 同步
+    - commit: c5904686ea8341826b3affe5d993d06a134fa779
+      previousHead: b95ebaffeab641907b38652f45c1502bd762972d
+      reason: Onyx 个人 fork 上游 v3.18.1 同步
     - commit: b95ebaffeab641907b38652f45c1502bd762972d
       previousHead: a9fe401eede6e6e5e01be9048679c206fe6f02d9
       reason: Onyx 个人 fork 上游 v3.18.0 同步
