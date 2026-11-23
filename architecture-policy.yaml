@@ -2067,6 +2067,12 @@ global:
   managedOnly: true
 
 exceptions:
+  - id: onyx-visible-text-zcode-server-cli
+    rule: unmanaged-new-file
+    paths:
+      - packages/zcode-server-cli/src/runtime/updateHandoff.ts
+      - packages/zcode-server-cli/src/server-core/proxyStdio.ts
+    reason: Onyx fork 对上游 v4.0.0 新增的 server-cli 文件仅做用户可见文案替换（ZCode→Onyx），未接管 zcode-server-cli 未受管模块。
   - id: onyx-sync-source-server-connection-manager
     rule: unmanaged-new-file
     paths: [packages/desktop/src/host/sourceServerConnectionManager.ts]
