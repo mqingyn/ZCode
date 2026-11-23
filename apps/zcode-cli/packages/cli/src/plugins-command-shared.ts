@@ -17,14 +17,14 @@ export type PluginScope = "user" | "workspace";
 export const BOOTSTRAP_EXPORTS = {
   addMarketplace: "addZCodePluginMarketplace",
   getPluginsOverview: "getZCodePluginsOverview",
-  installPlugin: "installOnyxMarketplacePlugin",
-  listPlugins: "listOnyxPlugins",
-  removeMarketplace: "removeOnyxPluginMarketplace",
-  setPluginEnabled: "setOnyxPluginEnabled",
-  uninstallPlugin: "uninstallOnyxMarketplacePlugin",
-  updateMarketplace: "updateOnyxPluginMarketplace",
-  updatePlugin: "updateOnyxMarketplacePlugin",
-  validatePluginPath: "validateOnyxPluginPath",
+  installPlugin: "installZCodeMarketplacePlugin",
+  listPlugins: "listZCodePlugins",
+  removeMarketplace: "removeZCodePluginMarketplace",
+  setPluginEnabled: "setZCodePluginEnabled",
+  uninstallPlugin: "uninstallZCodeMarketplacePlugin",
+  updateMarketplace: "updateZCodePluginMarketplace",
+  updatePlugin: "updateZCodeMarketplacePlugin",
+  validatePluginPath: "validateZCodePluginPath",
 } as const satisfies Record<string, keyof BootstrapModule>;
 
 export type PluginDepName = keyof typeof BOOTSTRAP_EXPORTS;

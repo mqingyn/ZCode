@@ -8,7 +8,7 @@ export class ZCodeAgentMcpStatusModeUnsupportedError extends Error {
 
   constructor() {
     super("The connected Onyx Agent does not support MCP status-only refresh");
-    this.name = "OnyxAgentMcpStatusModeUnsupportedError";
+    this.name = "ZCodeAgentMcpStatusModeUnsupportedError";
   }
 }
 

@@ -1,3 +1,6 @@
+import { resolvePreinstalledToolsRelease } from "@zcode/shared/preinstalled-tools";
+import { resolvePreinstalledToolsBinDir } from "@zcode/shared/preinstalled-tools/node";
+import { ZCODE_PRODUCT_FLAVOR, resolveZCodeRuntimeEnv } from "@zcode/shared";
 import { normalizeRemoteConnectionError, sanitizeRemoteConnectionLog } from "@zcode/shared";
 import { createCredentialCipherBridge } from "@zcode/shared/credential-security";
 import { join } from "node:path";
@@ -105,6 +108,7 @@ import {
   type AppControlServiceHandle,
   type WindowHostExtensions,
   getAppConfigDir,
+  getZCodeDataRootDir,
   OffPeakModelUnavailableError,
   OffPeakPermanentDispatchError,
   type BotProjectConnection,
@@ -117,6 +121,7 @@ import {
   resolveOffPeakDispatchKind,
 } from "./offPeakDispatchPlan.js";
 import {
+  CREDENTIAL_KEY_SHARE_UNAVAILABLE_ERROR_CODE,
   HostMessageTypes,
   HostResponseTypes,
   formatLogPrefix,
@@ -319,6 +324,37 @@ function authorizeLocalMediaPreviewPath(path: string): Promise<string> {
       });
     } catch (error) {
       pendingLocalMediaPreviewPathAuthorizations.delete(requestId);
+      reject(error instanceof Error ? error : new Error(String(error)));
+    }
+  });
+}
+
+interface PendingCredentialKeyShare {
+  resolve: () => void;
+  reject: (error: Error) => void;
+}
+
+const pendingCredentialKeyShares = new Map<string, PendingCredentialKeyShare>();
+
+/**
+ * 数据存储路径切换复制完成后，请求 Main 把当前系统密钥登记到目标数据根。
+ * 只有 Main 访问系统库；失败时 reject，由设置服务中止切换（见系统安全存储规格）。
+ */
+function shareCredentialKeyWithDataRoot(targetBaseDir: string): Promise<void> {
+  if (!parentPort) {
+    return Promise.reject(new Error("parentPort unavailable"));
+  }
+  const requestId = randomUUID();
+  return new Promise<void>((resolve, reject) => {
+    pendingCredentialKeyShares.set(requestId, { resolve, reject });
+    try {
+      parentPort.postMessage({
+        type: HostResponseTypes.CredentialKeyShareRequest,
+        requestId,
+        targetBaseDir,
+      });
+    } catch (error) {
+      pendingCredentialKeyShares.delete(requestId);
       reject(error instanceof Error ? error : new Error(String(error)));
     }
   });
@@ -1303,16 +1339,16 @@ const runtimeProcessLifecycleReporter = {
   },
 } satisfies NonNullable<Parameters<typeof createLocalServices>[0]>["processLifecycleReporter"];
 
+let activeV4SessionCount = 0;
+let legacyRuntimeTaskCount = 0;
 const runtimeTaskReporter = {
+  onActiveSessionCountChanged(event: { runningTaskCount: number }) {
+    activeV4SessionCount = event.runningTaskCount;
+    reportHostRunningTaskCount();
+  },
   onRunningTaskCountChanged(event) {
-    if (!parentPort) {
-      return;
-    }
-
-    parentPort.postMessage({
-      type: HostResponseTypes.AgentRunningTaskCountChanged,
-      runningTaskCount: event.runningTaskCount,
-    });
+    legacyRuntimeTaskCount = event.runningTaskCount;
+    reportHostRunningTaskCount();
   },
 } satisfies NonNullable<Parameters<typeof createLocalServices>[0]>["taskRuntimeReporter"];
 
@@ -1336,8 +1372,14 @@ const cuaOperationStateReporter = {
 
 let untrackedPromptRpcCount = 0;
 function reportHostRunningTaskCount(): void {
-  runtimeTaskReporter.onRunningTaskCountChanged({
-    runningTaskCount: workspaceTaskTracker.getTotalRunningTaskCount() + untrackedPromptRpcCount,
+  // v4 会话与旧代理分别报告，统一出口避免旧 ready 归零覆盖仍在执行的后台工作。
+  parentPort?.postMessage({
+    type: HostResponseTypes.AgentRunningTaskCountChanged,
+    runningTaskCount:
+      activeV4SessionCount +
+      legacyRuntimeTaskCount +
+      workspaceTaskTracker.getTotalRunningTaskCount() +
+      untrackedPromptRpcCount,
   });
 }
 
@@ -1811,6 +1853,11 @@ let persistedApplicationLocale: Locale | undefined;
 function resolveHostClientLanguage(): Locale | undefined {
   return applicationLocale ?? persistedApplicationLocale;
 }
+/**
+ * Agent 回复语言（null 为未设置），应答 CLI 的 session/readReplyLanguage。
+ * 值由 Main 持有；这里只认 InitLocal 初值与 reply-language-changed，不读 setting.json。
+ */
+let replyLanguage: string | null = null;
 let activeHostApiNetworkTransport: HostApiNetworkTransport | null = null;
 let sourceServerDirectory: SourceServerDirectory | null = null;
 let sourceServerConnectionManager: SourceServerConnectionManager | null = null;
@@ -2759,6 +2806,10 @@ function exposeServicesOnMessagePort(
   // 未读自动写入只归窗口 base renderer；手机和 remote facade 不能重复消费同一完成信号。
   const controllerAttachment = windowHostControllerRuntime.createAttachmentService(
     clientMode === "desktop-continuous" && attachmentScope.kind === "local",
+    // 侧栏手动顺序只在桌面 renderer 偏好里；桌面上报后叠加到手机 readTree，手机 attachment 不能写。
+    clientMode === "desktop-continuous"
+      ? { onProjectDisplayOrder: (order) => webRemoteProjectTreeActivity.setProjectOrder(order) }
+      : {},
   );
   const overrides = new Map<string, unknown>([
     [IWindowControllerService.channelName, controllerAttachment],
@@ -3196,6 +3247,13 @@ parentPort.on("message", async (e: Electron.MessageEvent) => {
   if (msg.type === HostMessageTypes.InitLocal && msg.locale) {
     applicationLocale = msg.locale;
   }
+  if (msg.type === HostMessageTypes.InitLocal) {
+    replyLanguage = msg.replyLanguage ?? null;
+  }
+  if (msg.type === HostMessageTypes.ReplyLanguageChanged) {
+    replyLanguage = msg.replyLanguage;
+    return;
+  }
   if (msg.type === HostMessageTypes.ApplicationLocaleChanged) {
     applicationLocale = msg.locale;
     return;
@@ -3333,6 +3391,24 @@ parentPort.on("message", async (e: Electron.MessageEvent) => {
       return;
     }
     pending.reject(new Error(msg.error ?? "反馈日志归档创建失败"));
+    return;
+  }
+
+  if (msg.type === HostMessageTypes.CredentialKeyShareResult) {
+    const pending = pendingCredentialKeyShares.get(msg.requestId);
+    if (!pending) {
+      return;
+    }
+    pendingCredentialKeyShares.delete(msg.requestId);
+    if (msg.ok) {
+      pending.resolve();
+      return;
+    }
+    pending.reject(
+      Object.assign(new Error("System credential storage is unavailable"), {
+        code: msg.errorCode ?? CREDENTIAL_KEY_SHARE_UNAVAILABLE_ERROR_CODE,
+      }),
+    );
     return;
   }
 
@@ -3990,7 +4066,7 @@ parentPort.on("message", async (e: Electron.MessageEvent) => {
           service: settingService,
           prepareLegacyAccountConnections,
           setWorkspaceProjection,
-        } = createSettingServiceWithMigrations();
+        } = createSettingServiceWithMigrations({ shareCredentialKeyWithDataRoot });
         // 不阻塞启动：读到持久化语言后作为 X-Client-Language 的兜底。
         void settingService.get().then(
           (settings) => {
@@ -4014,6 +4090,14 @@ parentPort.on("message", async (e: Electron.MessageEvent) => {
           log: (message, details) => logger.warn(message, details),
           establishOwner: () => {
             const initializedServices = createLocalServices({
+              // 固定目录与发布目标无关；准备完成后，既有会话下一条命令即可找到入口。
+              preinstalledToolsBinDir: resolvePreinstalledToolsBinDir({
+                dataRoot: getZCodeDataRootDir(),
+                release: resolvePreinstalledToolsRelease({
+                  runtimeEnv: resolveZCodeRuntimeEnv(process.env),
+                  productFlavor: ZCODE_PRODUCT_FLAVOR,
+                }),
+              }),
               onAppControlServiceCreated: (handle) => {
                 appControlForExtensions = handle;
               },
@@ -4216,6 +4300,7 @@ parentPort.on("message", async (e: Electron.MessageEvent) => {
               prepareLegacyAccountConnections,
               hostApiNetworkTransport,
               resolveClientLanguage: resolveHostClientLanguage,
+              resolveReplyLanguage: () => replyLanguage,
               authorizeLocalMediaPreviewPath,
               // launch.md「The user's choice」：本机用户选择变化后，推给本窗口所有在线的远程 Host。
               forwardDynamicWorkflowUserMode: (mode) => {

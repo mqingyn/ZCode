@@ -68,7 +68,7 @@ class ZCodeProtocolClientError extends Error {
     readonly data?: unknown,
   ) {
     super(message);
-    this.name = "OnyxProtocolClientError";
+    this.name = "ZCodeProtocolClientError";
   }
 }
 
@@ -79,7 +79,7 @@ export class ZCodeProtocolRequestTimeoutError extends Error {
     readonly timeoutMs: number,
   ) {
     super(`Onyx Protocol request timed out: ${method}`);
-    this.name = "OnyxProtocolRequestTimeoutError";
+    this.name = "ZCodeProtocolRequestTimeoutError";
   }
 }
 

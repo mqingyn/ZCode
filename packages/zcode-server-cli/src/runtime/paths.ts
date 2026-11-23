@@ -23,18 +23,23 @@ export interface ServerLayout {
   readonly updateLockFile: string;
   /** Supervisor 写出第一份状态前失败时的诊断摘要；不参与任何状态判断（R2 §7.1）。 */
   readonly supervisorStartupFailureFile: string;
+  /** 与同机 Desktop 共用的凭据文件 `<dataBaseDir>/.onyx/v2/credentials.json`。 */
+  readonly sharedCredentialsFile: string;
+  /** Server 自有凭据文件；所在目录存在即表示已改用自有库（ZCT-2120452663971209216）。 */
+  readonly serverCredentialsFile: string;
 }
 
 export function getDefaultServerDataRoot(): string {
   const configured = process.env.ZCODE_DATA_BASE_DIR?.trim();
-  return join(configured || homedir(), ".zcode", "server");
+  return join(configured || homedir(), ".onyx", "server");
 }
 
 export function resolveServerLayout(serverRoot = getDefaultServerDataRoot()): ServerLayout {
   const root = resolve(serverRoot);
   const runDir = join(root, "run");
+  const dataBaseDir = inferDataBaseDir(root);
   return {
-    dataBaseDir: inferDataBaseDir(root),
+    dataBaseDir,
     serverRoot: root,
     releasesDir: join(root, "releases"),
     runDir,
@@ -56,6 +61,8 @@ export function resolveServerLayout(serverRoot = getDefaultServerDataRoot()): Se
     updateTransactionFile: join(root, "update-transaction.json"),
     updateLockFile: join(runDir, "update.lock"),
     supervisorStartupFailureFile: join(runDir, "supervisor-startup-failure.json"),
+    sharedCredentialsFile: join(dataBaseDir, ".onyx", "v2", "credentials.json"),
+    serverCredentialsFile: join(root, "credentials", "credentials.json"),
   };
 }
 
@@ -88,7 +95,7 @@ export async function resolveCanonicalServerLayout(
 
 function inferDataBaseDir(serverRoot: string): string {
   const parent = dirname(serverRoot);
-  if (basename(serverRoot) === "server" && basename(parent) === ".zcode") {
+  if (basename(serverRoot) === "server" && basename(parent) === ".onyx") {
     return dirname(parent);
   }
   // 非标准的显式 server root 仍保持隔离，不向其父目录扩散 Agent/SQLite 数据。
@@ -150,5 +157,5 @@ export function assertServerDataRoot(serverRoot: string): string {
 }
 
 export function serverDataRootFromBase(baseDir: string): string {
-  return join(resolve(baseDir), ".zcode", "server");
+  return join(resolve(baseDir), ".onyx", "server");
 }

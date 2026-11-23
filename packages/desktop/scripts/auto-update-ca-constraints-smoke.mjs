@@ -293,7 +293,7 @@ for (const definition of [
 }
 await writeFile(caPath, directAnchors.join("\n"));
 await writeFile(
-  resolve(home, ".zcode/v2/setting.json"),
+  resolve(home, ".onyx/v2/setting.json"),
   JSON.stringify({
     locale: "en-US",
     httpProxyCaCertPath: caPath,

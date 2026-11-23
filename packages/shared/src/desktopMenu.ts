@@ -33,7 +33,7 @@ export const desktopMenuMessageIds = {
   helpCheckForUpdates: "titleBar.menu.help.checkForUpdates",
   helpToggleDevTools: "titleBar.menu.help.toggleDevTools",
   helpResourceManager: "titleBar.menu.help.resourceManager",
-  helpToggleZCodeStdioTap: "titleBar.menu.help.toggleOnyxStdioTap",
+  helpToggleZCodeStdioTap: "titleBar.menu.help.toggleZCodeStdioTap",
   helpZCodeEndpoint: "titleBar.menu.help.zcodeEndpoint",
   helpZCodeEndpointProduction: "titleBar.menu.help.zcodeEndpoint.production",
   helpZCodeEndpointTest: "titleBar.menu.help.zcodeEndpoint.test",
@@ -49,7 +49,7 @@ export const desktopMenuMessageIds = {
   helpRestartToUpdate: "desktopMenu.help.restartToUpdate",
   dockShowCurrentWindow: "dock.menu.showCurrentWindow",
   trayTooltip: "tray.tooltip",
-  trayOpenZCode: "tray.menu.openOnyx",
+  trayOpenZCode: "tray.menu.openZCode",
   trayQuit: "tray.menu.quit",
 } as const;
 
@@ -97,7 +97,7 @@ export const desktopMenuMessages: Record<"zh-CN" | "en-US", DesktopMenuLocaleMes
     "titleBar.menu.help.checkForUpdates": "检查更新",
     "titleBar.menu.help.toggleDevTools": "切换开发者工具",
     "titleBar.menu.help.resourceManager": "资源管理器",
-    "titleBar.menu.help.toggleOnyxStdioTap": "抓取 Agent stdio 通信",
+    "titleBar.menu.help.toggleZCodeStdioTap": "抓取 Agent stdio 通信",
     "titleBar.menu.help.zcodeEndpoint": "Onyx Endpoint",
     "titleBar.menu.help.zcodeEndpoint.production": "Production（默认）",
     "titleBar.menu.help.zcodeEndpoint.test": "Test",
@@ -113,7 +113,7 @@ export const desktopMenuMessages: Record<"zh-CN" | "en-US", DesktopMenuLocaleMes
     "desktopMenu.help.restartToUpdate": "重启以更新（{version}）",
     "dock.menu.showCurrentWindow": "显示当前窗口",
     "tray.tooltip": "Onyx",
-    "tray.menu.openOnyx": "打开 Onyx",
+    "tray.menu.openZCode": "打开 Onyx",
     "tray.menu.quit": "退出",
   },
   "en-US": {
@@ -149,7 +149,7 @@ export const desktopMenuMessages: Record<"zh-CN" | "en-US", DesktopMenuLocaleMes
     "titleBar.menu.help.checkForUpdates": "Check for updates",
     "titleBar.menu.help.toggleDevTools": "Toggle developer tools",
     "titleBar.menu.help.resourceManager": "Resource manager",
-    "titleBar.menu.help.toggleOnyxStdioTap": "Capture agent stdio traffic",
+    "titleBar.menu.help.toggleZCodeStdioTap": "Capture agent stdio traffic",
     "titleBar.menu.help.zcodeEndpoint": "Onyx Endpoint",
     "titleBar.menu.help.zcodeEndpoint.production": "Production (default)",
     "titleBar.menu.help.zcodeEndpoint.test": "Test",
@@ -165,7 +165,7 @@ export const desktopMenuMessages: Record<"zh-CN" | "en-US", DesktopMenuLocaleMes
     "desktopMenu.help.restartToUpdate": "Restart to update ({version})",
     "dock.menu.showCurrentWindow": "Show current window",
     "tray.tooltip": "Onyx",
-    "tray.menu.openOnyx": "Open Onyx",
+    "tray.menu.openZCode": "Open Onyx",
     "tray.menu.quit": "Quit",
   },
 };

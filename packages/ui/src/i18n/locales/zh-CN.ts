@@ -1,6 +1,79 @@
 import { requestSecurityMessagesZhCN } from "@/request-security-edition/messages.js";
 /** 中文翻译 */
 const zhCN: Record<string, string> = {
+  "preinstalledTools.purpose.python": "用于运行文档插件的脚本，并提供表格、Word、PDF 处理库",
+  "preinstalledTools.purpose.qpdf": "用于 PDF 拆分、合并、加密和修复",
+  "preinstalledTools.purpose.pandoc": "用于读取 Word 文档的内容",
+  "preinstalledTools.purpose.poppler": "用于 PDF 转图片和提取文字",
+  "preinstalledTools.phase.queued": "等待其他工具准备完成…",
+  "preinstalledTools.update": "更新",
+  "preinstalledTools.status.update-available": "可更新",
+  "preinstalledTools.currentInfo": "正在使用版本 {current}。",
+  "preinstalledTools.updateInfo":
+    "正在使用版本 {current}。新版本 {version} 需要下载约 {download} MB，安装后约 {installed} GB",
+  "preinstalledTools.delete": "删除",
+  "preinstalledTools.deleteTitle": "删除 {name}？",
+  "preinstalledTools.deleteDescription": "将释放约 {size} GB 磁盘空间。",
+  "preinstalledTools.deleteAutoNotice": "自动预装开启时，下次启动 Onyx 会重新下载。",
+  "preinstalledTools.deleteNotice.python": "Agent 额外安装的 Python 包也会删除。",
+  "preinstalledTools.deleteCancel": "取消",
+  "preinstalledTools.deletionBlocked": "{name} 正在被 Agent 使用，请稍后再试。",
+  "resourceManager.storage.category.preinstalledTools": "预装工具",
+  "resourceManager.storage.categoryDescription.preinstalledTools":
+    "受管文档工具。请在“帮助 → 预装工具”中删除。",
+  "preinstalledTools.autoInstall": "自动预装",
+  "preinstalledTools.entryOutOfSync": "开关已保存，但尚未生效，请重试。",
+  "preinstalledTools.agentEnabled": "Agent 使用预装版本",
+  "preinstalledTools.agentEnabledDescription": "关闭后，Agent 使用这台电脑上已有的 {name}。",
+  "preinstalledTools.autoInstallDescription":
+    "启动 Onyx 时自动在后台准备。关闭后不再自动下载，已安装的工具仍可使用。",
+  "preinstalledTools.remoteNotice": "当前打开的是远端工作区。这里管理的是本机，不会安装到远端。",
+  "preinstalledTools.download": "下载",
+  "preinstalledTools.cancel": "取消下载",
+  "preinstalledTools.retry": "重试",
+  "preinstalledTools.commandFailed": "操作未完成，请重试。",
+  "preinstalledTools.title": "预装工具",
+  "preinstalledTools.description": "这些工具安装在本机，供文档任务使用。",
+  "preinstalledTools.purpose.libreoffice": "用于文档转 PDF、PPT 转换和表格公式重算",
+  "preinstalledTools.loading": "正在读取…",
+  "preinstalledTools.loadFailed":
+    "预装工具未能启动。请重启 Onyx 后再试；如果仍然失败，请通过“帮助 → 导出日志”反馈问题。",
+  "preinstalledTools.unavailable": "当前版本暂未提供此工具。",
+  "preinstalledTools.readyInfo": "版本 {version} · 占用 {size} GB",
+  "preinstalledTools.downloadInfo": "正在下载 {loaded} / {total} MB",
+  "preinstalledTools.sizeInfo": "需要下载约 {download} MB，安装后约 {installed} GB",
+  "preinstalledTools.status.not-installed": "未安装",
+  "preinstalledTools.status.preparing": "准备中",
+  "preinstalledTools.status.ready": "已就绪",
+  "preinstalledTools.status.failed": "准备失败",
+  "preinstalledTools.phase.verifying": "正在校验文件…",
+  "preinstalledTools.phase.extracting": "正在解压…",
+  "preinstalledTools.phase.checking": "正在检查能否运行…",
+  "preinstalledTools.error.network": "无法连接下载服务器。请检查网络或代理设置。",
+  "preinstalledTools.error.interrupted": "下载中断，请重试。",
+  "preinstalledTools.error.disk-space": "磁盘空间不足，需要约 {size} GB 可用空间。",
+  "preinstalledTools.error.checksum": "下载的文件已损坏，请重试。",
+  "preinstalledTools.error.extract": "解压失败，请重试。",
+  "preinstalledTools.error.runtime": "工具无法在这台电脑上运行。请通过“帮助 → 导出日志”反馈问题。",
+  "preinstalledTools.error.unsupported": "暂不支持当前系统。",
+  "chat.capsule.todo.running": "处理中",
+  "chat.capsule.todo.completed": "已完成",
+  "chat.capsule.todo.pending": "待处理",
+  "chat.capsule.files": "{count} 个文件变更",
+  "chat.capsule.activity.completed": "已完成",
+  "chat.capsule.activity.stopped": "已停止",
+  "chat.capsule.activity.failed": "失败",
+  "chat.capsule.activity.running": "活跃中",
+  "chat.capsule.activityLabel": "活跃",
+  "chat.capsule.staged": "已暂存",
+  "chat.capsule.unstaged": "未暂存",
+  "chat.capsule.fileChanged": "已变更",
+  "chat.capsule.goal.failed": "失败",
+  "chat.capsule.goal.verified": "已完成",
+  "chat.capsule.goal.verifying": "验证中",
+  "chat.capsule.goal.paused": "已暂停",
+  "chat.capsule.goal.notSatisfied": "未达成",
+
   "plugin.discovery.installAndEnable": "安装并在当前工作区启用",
   "plugin.discovery.enableInWorkspace": "在当前工作区启用",
   "plugin.discovery.workspaceInstall":
@@ -658,7 +731,6 @@ const zhCN: Record<string, string> = {
   "occupationOnboarding.suggestions": "开启主动任务推荐",
   "occupationOnboarding.suggestionsDescription": "在新对话中显示任务建议，点击后填入输入框。",
   "occupationOnboarding.close": "退出引导",
-  "startup.global.silent": "正在启动 Onyx",
   "plugin.discovery.confirmTitle": "官方插件推荐",
   "plugin.discovery.official": "Onyx 官方市场",
   "plugin.discovery.workspaceEnable": "将在当前工作区启用此插件。",
@@ -667,6 +739,8 @@ const zhCN: Record<string, string> = {
   "plugin.discovery.skip": "跳过",
   "plugin.discovery.install": "安装",
   "plugin.discovery.enable": "启用",
+
+  "startup.global.silent": "正在启动 Onyx",
   "startup.global.upgrading": "正在升级本地数据",
   "startup.global.initializing": "正在初始化本地数据",
   "startup.global.waiting": "正在等待数据库准备",
@@ -914,10 +988,8 @@ const zhCN: Record<string, string> = {
   "conversationShare.readonly.execute": "执行",
   "conversationShare.readonly.changes": "修改",
   "conversationShare.readonly.artifactPreview": "下载文件",
-  "conversationShare.readonly.markerCompact": "上下文已压缩",
-  "conversationShare.readonly.markerModelChange": "模型已切换",
-  "conversationShare.readonly.unsupportedRows": "部分内容需要更新 Onyx 查看",
   "conversation.row.unreadable": "这条内容需要更新 Onyx 查看",
+  "conversationShare.readonly.unsupportedRows": "部分内容需要更新 Onyx 查看",
   "conversationShare.workflowSnapshot": "工具调用时的快照，不会实时更新",
   "conversationShare.shareTitle": "分享标题",
   "conversationShare.permissionLabel": "访问权限",
@@ -964,6 +1036,7 @@ const zhCN: Record<string, string> = {
     "某个预览文件的类型暂不支持分享，请取消选择对应对话后重试。",
   "conversationShare.error.limitExceeded": "所选对话或文件超过分享限制，请减少选择的对话数量。",
   "conversationShare.error.rateLimited": "分享操作过于频繁，请稍后再试。",
+  "conversationShare.error.rateLimitedWait": "分享操作过于频繁，请 {seconds} 秒后重试。",
   "conversationShare.error.invalidContractHttp":
     "分享服务接口异常（HTTP {status}），暂时无法完成发布。请重试；若仍失败，请提供错误详情。",
   "conversationShare.error.invalidContract":
@@ -974,7 +1047,7 @@ const zhCN: Record<string, string> = {
   "conversationShare.error.safetyCheckTimeout": "分享安全检查超时，请稍后重试。",
   "conversationShare.error.invalidSelection": "所选对话已发生变化，请重新打开分享面板并选择。",
   "conversationShare.error.invalidConversation":
-    "所选对话内容暂时无法发布，请查看具体问题并调整后重试。",
+    "所选对话内容暂时无法发布，请取消最近选择的轮次后重试；仍然失败请在错误详情中复制 request-id 反馈。",
   "conversationShare.error.runningTurn":
     "所选对话仍在运行，请取消选择运行中的轮次，等待完成后再分享。",
   "conversationShare.error.streamingRow": "所选对话仍在生成中，请等待本轮输出完成后再分享。",
@@ -1059,6 +1132,29 @@ const zhCN: Record<string, string> = {
   "conversationShare.issue.invalidServiceResponse": "分享服务返回了无法识别的响应，请稍后重试。",
   "conversationShare.issue.unknown":
     "分享未能完成，暂时无法确定原因。请重试；若仍失败，请提供错误详情。",
+  "conversationShare.issue.unsupportedContent":
+    "第 {turnOrdinal} 轮的部分内容格式与分享服务不兼容，请更新 Onyx，或取消该轮后分享。",
+  "conversationShare.issue.artifactTypeRejected":
+    "第 {turnOrdinal} 轮的 {artifactDisplayName}（{artifactType}）暂不支持分享，请取消该轮后重试。",
+  "conversationShare.issue.artifactFormatMismatch":
+    "第 {turnOrdinal} 轮的 {artifactDisplayName} 扩展名与实际格式不符，请改成正确的扩展名或重新导出，或取消该轮。",
+  "conversationShare.issue.artifactDimensionsExceeded":
+    "第 {turnOrdinal} 轮的 {artifactDisplayName} 尺寸过大（单边不超过 8192 像素），请缩小后重试，或取消该轮。",
+  "conversationShare.issue.artifactCorrupted":
+    "第 {turnOrdinal} 轮的 {artifactDisplayName} 已损坏或格式不完整，请重新导出后重试，或取消该轮。",
+  "conversationShare.issue.artifactEncodingInvalid":
+    "第 {turnOrdinal} 轮的 {artifactDisplayName} 不是 UTF-8 编码，请转换编码后重试，或取消该轮。",
+  "conversationShare.issue.artifactUploadRejected":
+    "第 {turnOrdinal} 轮的 {artifactDisplayName} 无法上传，请取消该轮后重试；仍然失败请在错误详情中复制 request-id 反馈。",
+  "conversationShare.issue.artifactUploadMissing": "{artifactDisplayName} 未上传完成，请重试。",
+  "conversationShare.issue.artifactUploadMissingAny": "部分文件未上传完成，请重试。",
+  "conversationShare.issue.contentBlocksLimit":
+    "所选内容包含 {actual} 个内容块，超过上限 {limit}，请减少所选轮次。",
+  "conversationShare.issue.preparationStale": "本次分享的状态已变化，请重新生成链接。",
+  "conversationShare.issue.conversationSafetyRejected":
+    "所选对话的文字内容未通过安全检查，请减少或调整所选轮次后重试。",
+  "conversationShare.issue.artifactSafetyRejected":
+    "第 {turnOrdinal} 轮的 {artifactDisplayName} 未通过安全检查，请取消该轮或移除该文件后重试。",
   "conversationShare.issue.details": "错误详情",
   "conversationShare.issue.requestIdLabel": "服务端请求 ID",
   "conversationShare.issue.requestId": "服务端请求 ID：{requestId}",
@@ -1094,6 +1190,8 @@ const zhCN: Record<string, string> = {
   "conversationShare.publish.retry": "重试生成链接",
   "conversationShare.publish.footerMeta": "分享 {selected} 个对话轮次，{access}",
   "conversationShare.publish.failedFooter": "选择已保留，可根据失败原因重试",
+  "conversationShare.publish.failedFooterNeedsChange":
+    "取消有问题的轮次或调整选择后，可重新生成链接",
   "conversationShare.partial.selectAll": "全选",
   "conversationShare.partial.selectionCount": "{selected}/{total}",
   "conversationShare.partial.cancel": "取消",
@@ -1652,6 +1750,7 @@ const zhCN: Record<string, string> = {
   "login.agreement.terms": "用户协议",
   "login.agreement.privacy": "隐私政策",
   "login.singleLogin.browserButton": "浏览器授权登录",
+  // 切换链接使用目标区域语言，和当前界面语言相反：给目标区域用户看的入口。
   "login.singleLogin.switchToGlobal": "Switch to Global",
   "login.singleLogin.switchToDomestic": "切换到中国",
   "login.singleLogin.waiting": "等待浏览器完成认证...",
@@ -1929,14 +2028,11 @@ const zhCN: Record<string, string> = {
   "subagentDirectory.status.failed": "失败",
   "subagentDirectory.status.cancelled": "已取消",
   "subagentDirectory.status.lost": "已丢失",
-  "chat.statusPanel.endedAgents": "已结束",
   // workflow run 目录（任务页脚行 → 这一页 → 详情页）。状态词复用
   // chat.toolCall.workflow.run.status.*，这里只有页面自己的结构文案。
   //
   // 页脚行刻意是「已结束的工作流」而不是「已完成」：这个桶里也有失败与取消的 run，
   // 而恰恰是它们最值得回去看（可恢复的那些）。
-  "chat.statusPanel.endedWorkflows": "已结束的工作流",
-  "chat.statusPanel.workflowsLive": "{count} 个运行中",
   "workflowDirectory.title": "工作流实例",
   "workflowDirectory.running": "正在运行",
   "workflowDirectory.runningEmpty": "没有正在运行的工作流",
@@ -1959,6 +2055,7 @@ const zhCN: Record<string, string> = {
   "chat.selections.commentAdd": "添加评论",
   "chat.selections.commentDeleted": "已删除注释",
   "chat.selections.commentUndo": "撤销",
+  "chat.selections.sentTitle": "已随消息发送",
   "chat.selections.listHeader": "下一条消息将携带 {count} 条注释",
   "chat.selections.listHint": "编号对应正文",
   "chat.selections.removeAll": "移除全部注释",
@@ -2517,7 +2614,7 @@ const zhCN: Record<string, string> = {
   "titleBar.menu.help.exportLogs": "导出日志",
   "titleBar.menu.help.toggleDevTools": "切换开发者工具",
   "titleBar.menu.help.resourceManager": "资源管理器",
-  "titleBar.menu.help.toggleOnyxStdioTap": "抓取 Agent stdio 通信",
+  "titleBar.menu.help.toggleZCodeStdioTap": "抓取 Agent stdio 通信",
   "titleBar.menu.help.clearAllData": "清除所有数据",
 
   // 目录浏览
@@ -2590,6 +2687,8 @@ const zhCN: Record<string, string> = {
     "刚才的页面错误已经被拦住了，所以不会直接白屏。你可以先重试；如果问题持续，再刷新应用恢复界面。",
   "appError.retry": "重试",
   "appError.reload": "刷新应用",
+  "appError.restart": "重启应用",
+  "appError.restartHint": "重启将关闭所有应用窗口，未保存的内容可能丢失。",
   "appError.hint": "错误详情已记录到诊断日志里，方便继续排查。",
   "appError.details": "查看组件堆栈",
   "appError.unknown": "未知错误",
@@ -2988,7 +3087,7 @@ const zhCN: Record<string, string> = {
   "remote.connectingConfirmTitle": "要中止当前连接吗？",
   "remote.sourceServerInstallTitle": "需要安装 Onyx Server",
   "remote.sourceServerInstallDescription":
-    "Onyx 将上传匹配的发行包，安装到 ~/.zcode/server 并启动远端服务；现有旧远程文件会保留。",
+    "Onyx 将上传匹配的发行包，安装到 ~/.onyx/server 并启动远端服务；现有旧远程文件会保留。",
   "remote.sourceServerInstallConfirm": "安装并继续",
   "remote.installTarget": "目标账号",
   "remote.installVersion": "安装版本",
@@ -3429,7 +3528,7 @@ const zhCN: Record<string, string> = {
   "chat.previewCards.video": "视频",
   "chat.previewCards.audio": "音频",
   "chat.previewCards.openExternal": "在浏览器中打开",
-  "chat.message.link.openInOnyx": "在 Onyx 中打开",
+  "chat.message.link.openInZCode": "在 Onyx 中打开",
   "chat.previewCards.previewInSidePane": "预览",
   "chat.previewCards.openDefaultApp": "使用默认应用打开",
   "chat.previewCards.openWith": "打开方式",
@@ -3529,6 +3628,7 @@ const zhCN: Record<string, string> = {
   "settings.shortcuts.command.switchTheme": "切换深色/浅色主题",
   "settings.shortcuts.command.toggleSidePane": "切换右侧面板",
   "settings.shortcuts.command.toggleSidePaneFullView": "进入或退出完整视图",
+  "settings.shortcuts.command.toggleVoiceInput": "开始或结束语音输入",
   "settings.shortcuts.command.toggleTerminal": "切换终端",
   "settings.shortcuts.command.previousConversation": "上一个任务",
   "settings.shortcuts.command.nextConversation": "下一个任务",
@@ -3549,6 +3649,8 @@ const zhCN: Record<string, string> = {
   "settings.appearance.interfaceDescription": "设置应用主题和界面文字大小。",
   "settings.appearance.codeTitle": "代码设置",
   "settings.appearance.codeDescription": "设置代码内容的主题、字号和显示方式，不受界面字号影响。",
+  "settings.fontSmoothing": "字体平滑",
+  "settings.fontSmoothingDescription": "开启后使用灰度平滑，文字可能显得更细。效果因显示器而异。",
   "settings.uiFontSize": "界面字号",
   "settings.uiFontSizeDescription": "调整应用界面的文字大小，图标和布局尺寸不受影响。",
   "settings.agentBehavior.title": "行为与工具",
@@ -3578,6 +3680,18 @@ const zhCN: Record<string, string> = {
   "settings.nativeSearchEnhancements": "增强 Find 和 Grep",
   "settings.nativeSearchEnhancementsDescription":
     "在新建会话或应用重启后恢复的会话中使用增强 Find 和 Grep。当前会话保持现有设置；Windows 的 Find 保持不变。",
+  "settings.totalTokensReminder": "Token 预算提醒",
+  "settings.totalTokensReminderDescription":
+    "在新建会话或应用重启后恢复的会话中，向模型提供固定的 token 预算，并在每轮附带剩余量。只是提醒，不限制实际用量。当前会话保持现有设置。",
+  "settings.agentAlwaysBackground": "子智能体总在后台运行",
+  "settings.agentAlwaysBackgroundDescription":
+    "子智能体总在后台启动，结果在之后的回合送回，运行期间可以继续交代其他工作。关闭后由模型选择：默认在前台运行，模型要求时才在后台运行。在新建会话或应用重启后恢复的会话中生效；当前会话保持现有设置。",
+  "settings.replyLanguage": "回复语言",
+  "settings.replyLanguageDescription": "Agent 用这个语言回复。留空时跟随对话语言。",
+  "settings.replyLanguagePlaceholder": "例如：简体中文、English、日本語",
+  "settings.replyLanguageSaveError": "保存回复语言失败",
+  "settings.replyLanguageLocalOnly":
+    "回复语言仅支持在本地桌面端设置，请前往本地桌面端的“行为与工具”设置。",
   "settings.memory": "记忆",
   "settings.personalization.title": "个性化",
   "settings.personalization.description":
@@ -3732,7 +3846,7 @@ const zhCN: Record<string, string> = {
   "settings.taskAutoArchiveDays.option.30": "30 天后归档",
   "settings.dataBaseDir": "数据存储路径",
   "settings.dataBaseDirDescription":
-    "应用数据的根目录（默认为用户主目录），修改后会将现有数据复制到新位置。路径后缀 .zcode/v2 不可更改。",
+    "应用数据的根目录（默认为用户主目录），修改后会将现有数据复制到新位置。路径后缀 .onyx/v2 不可更改。",
   "settings.dataBaseDirPlaceholder": "默认：用户主目录",
   "settings.dataBaseDirBrowse": "选择文件夹",
   "settings.dataBaseDirSave": "保存",
@@ -3989,9 +4103,6 @@ const zhCN: Record<string, string> = {
   "settings.mcp.plugin.connectedDescription": "该插件 MCP 服务器已连接并可用。",
   "settings.mcp.plugin.disconnected": "未连接",
   "settings.mcp.plugin.disconnectedDescription": "该插件 MCP 服务器已加载，但当前未连接。",
-  "settings.mcp.host.active": "宿主内置",
-  "settings.mcp.host.activeDescription":
-    "该 MCP 服务器由 Onyx 宿主为 {pluginName} 插件提供，运行时身份由宿主管理。",
   "settings.mcp.plugin.disabled": "插件未启用",
   "settings.mcp.plugin.disabledDescription": "该 MCP 服务器内置在插件中，启用插件后会加载。",
   "settings.mcp.plugin.unavailable": "未加载",
@@ -5363,6 +5474,8 @@ const zhCN: Record<string, string> = {
   "settings.plugins.store.ui.unsupported": "当前环境暂不支持打开插件界面，请在桌面本地项目中使用。",
   "settings.plugins.store.ui.needsSession": "请在当前项目的可用会话中打开插件界面。",
   "settings.plugins.store.ui.unavailable": "当前项目没有可用的插件界面，请检查启用状态。",
+  "settings.plugins.store.ui.disabledInWorkspace":
+    "该插件在当前项目已禁用，请到插件管理的当前项目中启用后再打开。",
   "settings.plugins.store.ui.chooseSurface": "选择插件界面",
   "settings.plugins.store.ui.preview": "放大效果图",
   "settings.plugins.store.ui.capability": "提供可在侧边面板打开的交互界面。",
@@ -5481,6 +5594,13 @@ const zhCN: Record<string, string> = {
   "settings.plugins.updateAll.partial": "已更新 {succeeded} 个，{failed} 个失败：{plugins}",
   "settings.plugins.updateAll.aborted": "插件范围已切换，全部更新已中止；已更新 {count} 个插件",
   "settings.plugins.list.updateAvailable": "可更新",
+  "settings.plugins.workspaceTrust.pending": "待信任",
+  "settings.plugins.workspaceTrust.pendingHint":
+    "这个插件来自项目配置，信任前不会加载。信任后，新会话会运行它的 Hook、MCP、技能、命令和 Agent。",
+  "settings.plugins.workspaceTrust.trust": "信任",
+  "settings.plugins.workspaceTrust.trusted": "已信任 {plugin}，新会话生效",
+  "settings.plugins.workspaceTrust.changed": "{plugin} 的声明已变化，请确认后重新信任",
+  "settings.plugins.workspaceTrust.failed": "无法信任 {plugin}",
   "settings.plugins.list.versionChanged": "版本变化",
   "settings.plugins.restore": "恢复",
   "settings.plugins.restorableBuiltins.title": "恢复内置插件",
@@ -5659,7 +5779,9 @@ const zhCN: Record<string, string> = {
 
   "settings.hooks.review.trust": "信任",
   "settings.hooks.review.notice": "钩子可在沙盒外运行，因此，请审查最近安装或修改的所有钩子",
+  "settings.hooks.review.worktreeNotice": "信任将同时作用于源仓库 {path} 及其 worktree",
   "settings.hooks.review.unavailable": "当前连接不支持信任此 Hook。",
+  "settings.hooks.review.scriptUnavailable": "入口脚本不存在或无法读取",
   "settings.hooks.review.reason.review_superseded": "审核已更新，请重新确认",
   "settings.hooks.review.reason.snapshot_mismatch": "Hook 配置已变化，需要重新审核",
   "settings.hooks.review.reason.bundle_changed": "Hook 配置已变化，需要重新审核",
@@ -5675,9 +5797,9 @@ const zhCN: Record<string, string> = {
   "settings.hooks.title": "钩子",
   "settings.workspaceFileSearch.title": "工作区搜索范围",
   "settings.workspaceFileSearch.description":
-    "编辑 .zcodeignore 忽略规则（语法与 .gitignore 一致），控制工作区文件搜索的范围。保存后下次搜索生效。",
+    "编辑 .onyxignore 忽略规则（语法与 .gitignore 一致），控制工作区文件搜索的范围。保存后下次搜索生效。",
   "settings.workspaceFileSearch.templateHint":
-    ".zcodeignore 尚未创建：下方为初始内容预览（.gitignore 拷贝 + 默认排除规则），保存后才会写入工作区。",
+    ".onyxignore 尚未创建：下方为初始内容预览（.gitignore 拷贝 + 默认排除规则），保存后才会写入工作区。",
   "settings.workspaceFileSearch.editorLabel": "工作区搜索忽略规则编辑框",
   "settings.workspaceFileSearch.save": "保存",
   "settings.workspaceFileSearch.saved": "已保存，下次搜索生效",
@@ -5687,7 +5809,7 @@ const zhCN: Record<string, string> = {
   "settings.workspaceFileSearch.restoreDefaults": "恢复默认规则",
   "settings.workspaceFileSearch.transformFailed": "应用分区操作失败，请查看日志",
   "settings.workspaceFileSearch.reveal": "打开文件位置",
-  "settings.workspaceFileSearch.revealHint": "保存后即可在工作区根目录找到 .zcodeignore",
+  "settings.workspaceFileSearch.revealHint": "保存后即可在工作区根目录找到 .onyxignore",
   "settings.workspaceFileSearch.unsaved": "有未保存的修改",
   "settings.workspaceFileSearch.noWorkspace": "当前没有打开的工作区，无法配置搜索忽略规则。",
   "settings.hooks.description": "管理任务生命周期钩子，在特定事件发生时自动执行命令。",
@@ -5931,7 +6053,7 @@ const zhCN: Record<string, string> = {
   "chat.message.forking": "正在分叉...",
   "chat.message.fork.unavailable": "任务结束后可分叉",
   "chat.message.fork.unsupported": "当前agent暂不支持分叉功能",
-  "chat.message.fork.failed": "分叉会话失败：{error}",
+  "chat.message.fork.failed": "分叉会话失败，请稍后重试。",
   "chat.message.fork.derivedFrom": "从对话中派生",
   "chat.message.fork.derivedFromMissing": "派生自旧对话（已丢失追溯信息）",
   "chat.message.fork.parentMissing": "原对话已不存在",
@@ -6140,64 +6262,24 @@ const zhCN: Record<string, string> = {
   "chat.target.status.paused": "已暂停",
   "chat.target.status.budget_limited": "预算受限",
   "chat.target.status.complete": "已完成",
-  "chat.target.pause": "暂停目标",
-  "chat.target.resume": "继续目标",
+  "chat.target.elapsed": "已运行 {duration}",
+  "chat.target.pause": "暂停",
+  "chat.target.resume": "继续",
   "chat.target.clear": "清空目标",
-  "chat.summaryPanel.title": "状态",
   "chat.summaryPanel.duration.hours": "小时",
   "chat.summaryPanel.duration.minutes": "分",
   "chat.summaryPanel.duration.seconds": "秒",
-  "chat.summaryPanel.showMini": "收起为胶囊",
-  "chat.summaryPanel.showPanel": "展开状态",
-  "chat.summaryPanel.displayMode": "状态面板展开策略",
-  "chat.summaryPanel.displayModeAuto": "自动展开",
-  "chat.summaryPanel.displayModeExpanded": "始终展开",
-  "chat.summaryPanel.displayModeCollapsed": "始终收起",
-  "chat.summaryPanel.runningBackgroundTasks": "运行中的后台任务",
-  "chat.summaryPanel.runningBackgroundTasksMiniValue": "{count} 后台",
-  "chat.summaryPanel.runningBackgroundTasksMiniValuePlural": "{count} 后台",
   "chat.summaryPanel.stopRunningBackgroundTask": "停止运行中的后台任务",
   "chat.summaryPanel.stopRunningSubagent": "停止运行中的智能体",
   "chat.summaryPanel.stopSubagentFailed": "未能停止智能体，请重试。",
   "chat.summaryPanel.openRunningSubagentSession": "打开子智能体会话",
-  "chat.composer.backgroundWorks.tooltipTerminal": "运行中的终端",
-  "chat.composer.backgroundWorks.tooltipAgent": "打开运行中的智能体",
   // workflow 从 bash 拆出后 badge 有三类：
   // 恰好一类时用该类文案，混合仍走 tooltipMixed——三类两两组合再各写一句只会堆出六条同义句。
-  "chat.composer.backgroundWorks.tooltipWorkflow": "打开运行中的工作流",
   // 唯一在跑的工作流直达详情页时，徽标如实说出落点。
-  "chat.composer.backgroundWorks.tooltipWorkflowDetails": "打开工作流详情",
-  "chat.composer.backgroundWorks.tooltipMixed": "打开运行中的终端与智能体",
-  "chat.composer.backgroundWorks.ariaLabel":
-    "打开运行中的后台任务：Bash {bashCount} 个，工作流 {workflowCount} 个，子智能体 {subagentCount} 个，共 {count} 个",
   "chat.summaryPanel.goalIterationValue": "第 {count} 次迭代",
-  "chat.summaryPanel.todoGoalIterationGroup": "第 {count} 轮迭代",
-  "chat.summaryPanel.todoSessionGroup": "整个会话",
-  "chat.statusPanel.environment": "Git 工具",
-  "chat.statusPanel.changes": "更改",
-  "chat.statusPanel.branch": "分支",
-  "chat.statusPanel.commitPush": "提交 / 推送",
-  "chat.statusPanel.clean": "干净",
-  "chat.statusPanel.goal": "目标",
-  "chat.statusPanel.sessionPlans": "计划",
-  "chat.statusPanel.planFallback": "计划",
-  "chat.statusPanel.openPlan": "打开计划：{title}",
-  "chat.statusPanel.todo": "进程",
-  "chat.statusPanel.todoCompletedExpanded": "收起 {count} 项已完成",
-  "chat.statusPanel.todoCompletedFold": "已完成 {count} 项",
-  "chat.statusPanel.todoEarlierFold": "前面 {count} 项",
-  "chat.statusPanel.todoLaterFold": "后面 {count} 项",
-  "chat.statusPanel.todoWaitingExpanded": "收起 {count} 项待处理",
-  "chat.statusPanel.todoWaitingFold": "待处理 {count} 项",
-  "chat.statusPanel.terminals": "终端",
-  "chat.statusPanel.agents": "智能体",
+  "chat.statusPanel.viewAllChanges": "查看全部变更",
   // Workflows 分区：与 Terminals / Agents 并列的
   // 第三类实时活动。行内的状态词与步数复用 chat.toolCall.workflow.* 那一组，不另造词汇。
-  "chat.statusPanel.workflows": "工作流",
-  "chat.statusPanel.runningStatusValue": "{count} 个后台运行",
-  "chat.statusPanel.runningStatusValuePlural": "{count} 个后台运行",
-  "chat.statusPanel.runningAgentsValue": "{count} 运行",
-  "chat.statusPanel.runningAgentsValuePlural": "{count} 运行",
   "chat.statusPanel.runningStop": "停止",
   "chat.toolbar.connection.switchFailed": "切换连接失败，请重新选择后重试。",
   "chat.toolbar.combined.provider": "供应商",
@@ -6211,6 +6293,7 @@ const zhCN: Record<string, string> = {
   "chat.agentSwitch.success": "已切换到 {provider}",
   "chat.agentSwitch.failed": "切换 Agent 失败",
   "chat.toolbar.model.manageModels": "管理模型",
+  "chat.toolbar.model.clearSearch": "清除搜索",
   "chat.toolbar.model.searchPlaceholder": "搜索模型...",
   "chat.toolbar.model.empty": "未找到匹配模型",
   "chat.toolbar.modelSwitch.stage.settingModel": "正在切换模型...",
@@ -6223,6 +6306,7 @@ const zhCN: Record<string, string> = {
   "chat.toolbar.modelSwitch.lockedByRunningTask.short": "任务运行中",
   "chat.goal.runningBlocked": "请结束任务后设定目标。",
   "chat.goal.planModeBlocked": "Goal 无法在 Plan 模式下使用，请切换模式。",
+  "chat.slash.app.plan.label": "计划模式",
   "chat.slash.app.plan.description": "开启计划模式",
   "chat.compact.runningBlocked": "运行中不能压缩上下文，请等待当前任务结束。",
   "chat.compact.queued": "已加入队列，将按顺序压缩上下文。",
@@ -7049,7 +7133,7 @@ const zhCN: Record<string, string> = {
   "chat.toolCall.workflow.run.artifacts.nextVersion": "下一版",
   "chat.toolCall.workflow.run.artifacts.open": "打开产物",
   // 动作。「下载」（存到用户挑的位置）仍缺席；「作为文件打开」
-  // 落的是宿主 ~/.zcode/tmp 下的副本，不是用户挑的位置。
+  // 落的是宿主 ~/.onyx/tmp 下的副本，不是用户挑的位置。
   "chat.toolCall.workflow.run.artifacts.reveal": "在工作区显示",
   "chat.toolCall.workflow.run.artifacts.copy": "复制",
   "chat.toolCall.workflow.run.artifacts.copied": "已复制",
@@ -8090,6 +8174,7 @@ const zhCN: Record<string, string> = {
   "automations.runNowQueued": "已触发，即将运行",
   "automations.runNowAlreadyRunning": "上一条正在运行中，请稍后再试",
   "automations.runNowFailed": "触发运行失败",
+  "automations.runNowHostMismatch": "任务所属设备不符，无法运行",
   "automations.error.create": "创建失败，请重试",
   "automations.error.createLimit":
     "最多可保留 {limit} 个定时任务（包含已暂停、已完成和失败任务），请先删除一个任务后再创建。",
@@ -8452,7 +8537,7 @@ const zhCN: Record<string, string> = {
   "remoteSync.device.status.online": "已连接",
   "remoteSync.empty.title": "暂无已连接设备",
   "remoteSync.empty.description":
-    "连接 SSH、WSL 或 Docker 设备后，可以把本机配置推送到该设备的 ~/.zcode 目录。",
+    "连接 SSH、WSL 或 Docker 设备后，可以把本机配置推送到该设备的 ~/.onyx 目录。",
   "remoteSync.empty.connect": "连接远端设备",
   "remoteSync.device.neverSynced": "尚未同步",
   "remoteSync.device.lastSynced.today": "今天 {time} 已同步",
@@ -8515,7 +8600,7 @@ const zhCN: Record<string, string> = {
   "remoteSync.blocked.targetSymlink": "远端同名项是软链，不能覆盖",
   "remoteSync.blocked.compatDirectory": "远端同名项位于 ~/.agents 兼容目录，不能覆盖",
   "remoteSync.blocked.externalDirectory":
-    "远端同名插件位于 ~/.zcode/plugins 以外的目录（例如开发中的 checkout），不能更新",
+    "远端同名插件位于 ~/.onyx/plugins 以外的目录（例如开发中的 checkout），不能更新",
   "remoteSync.blocked.targetCompatConfig": "远端使用 ~/.agents 兼容配置，推送会使其失效",
   "remoteSync.blocked.sourceRemoved": "来源已删除，不能同步",
   "remoteSync.blocked.remoteLatestMismatch": "远端来源的最新版本与本机不一致",
@@ -8566,10 +8651,17 @@ const zhCN: Record<string, string> = {
   "voiceInput.button.recognizing": "正在识别…",
   "voiceInput.action.openPrivacySettings": "打开系统设置",
   "voiceInput.action.openSoundSettings": "打开声音设置",
-  "voiceInput.error.permissionDenied.mac":
-    "Onyx 没有麦克风权限。请在「系统设置 › 隐私与安全性 › 麦克风」中允许 Onyx，部分系统版本需要重启应用后生效。",
-  "voiceInput.error.permissionDenied.windows":
-    "Onyx 没有麦克风权限。请在「设置 › 隐私和安全性 › 麦克风」中同时打开「麦克风访问权限」和「允许桌面应用访问麦克风」。",
+  "voiceInput.permission.title": "需要麦克风权限",
+  "voiceInput.permission.description.mac":
+    "点击「重新授权」，然后在系统弹框中选择「允许」。也可以在「系统设置 › 隐私与安全性 › 麦克风」中打开 Onyx。",
+  "voiceInput.permission.reauthorize": "重新授权",
+  "voiceInput.permission.restartTitle": "需要重启 Onyx",
+  "voiceInput.permission.restartDescription":
+    "已重置麦克风授权。重启 Onyx 后点击麦克风，在系统弹框中选择「允许」。",
+  "voiceInput.permission.relaunch": "重启 Onyx",
+  "voiceInput.permission.granted": "已开启麦克风权限，点击麦克风开始语音输入。",
+  "voiceInput.permission.description.windows":
+    "请在「设置 › 隐私和安全性 › 麦克风」中同时打开「麦克风访问权限」和「允许桌面应用访问麦克风」。",
   "voiceInput.error.permissionDenied.linux":
     "无法访问麦克风。请检查系统的麦克风权限和 PulseAudio / PipeWire 输入设备。",
   "voiceInput.error.silent": "没有收到麦克风声音。通常是系统麦克风权限未开启或选错了输入设备。",

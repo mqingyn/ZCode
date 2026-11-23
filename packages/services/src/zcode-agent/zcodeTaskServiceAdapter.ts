@@ -304,7 +304,7 @@ export function createZCodeTaskServiceAdapter(
 
   function unsupported(name: string): never {
     throw Object.assign(
-      new Error(`Onyx task service adapter does not support IOnyxTaskService.${name} yet.`),
+      new Error(`Onyx task service adapter does not support IZCodeTaskService.${name} yet.`),
       {
         code: "ZCODE_AGENT_UNSUPPORTED_LEGACY_TASK_METHOD",
       },
@@ -2950,7 +2950,7 @@ export function createZCodeTaskServiceAdapter(
       // 这里按 sessionId 还原该 task 的模型调用轨迹，供 UI 侧边栏可视化。
       const trajectory = await readModelTrajectory(params.taskId, params.limit);
       logger.info(
-        `[OnyxTaskService] getModelTrajectory taskId=${params.taskId} records=${trajectory.records.length} files=${trajectory.sourceFiles.length} truncated=${trajectory.truncated}`,
+        `[ZCodeTaskService] getModelTrajectory taskId=${params.taskId} records=${trajectory.records.length} files=${trajectory.sourceFiles.length} truncated=${trajectory.truncated}`,
       );
       return trajectory;
     },
@@ -2987,6 +2987,30 @@ export function createZCodeTaskServiceAdapter(
       if (!archived && !result.completed && !result.incomplete)
         return { ...result, blockedReason: "not-archived" as const };
       return result;
+    },
+
+    async previewArchivedTaskDeletions({ tasks }) {
+      const preview = options.zcodeAgentService.previewSessionDeletions;
+      if (!preview) throw new Error("session-data.unavailable");
+      if (!tasks.length) return { results: [] };
+      const archived = await Promise.all(tasks.map((task) => taskIndexRepo.isTaskArchived(task)));
+      const { results } = await preview({
+        items: tasks.map((task) => ({
+          sessionId: task.taskId,
+          workspace: normalizeWorkspaceParams(task),
+        })),
+      });
+      // 未归档判定与单项预检一致：已在删除或已完成的续删不受归档状态影响。
+      return {
+        results: results.map((result, index) =>
+          "preview" in result &&
+          !archived[index] &&
+          !result.preview.completed &&
+          !result.preview.incomplete
+            ? { preview: { ...result.preview, blockedReason: "not-archived" as const } }
+            : result,
+        ),
+      };
     },
 
     async permanentlyDeleteArchivedTask(params) {
