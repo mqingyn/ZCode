@@ -1,4 +1,7 @@
-import { isAbsolute, resolve } from "node:path";
+import { existsSync } from "node:fs";
+import { copyFile, mkdir, rm } from "node:fs/promises";
+import { homedir } from "node:os";
+import { dirname, isAbsolute, join, resolve } from "node:path";
 import { SqliteSessionStore } from "@zcode/adapters/storage";
 import { resolvePath, type ConfigResult } from "@zcode/adapters/config";
 import {
@@ -97,6 +100,7 @@ export async function openStartupSessionStore(
     event: "bootstrap.app.startup.sqlite_migration.started",
     stage: "migrate_session_db",
   });
+  await migrateLegacySessionDbIfNeeded(dbPath);
   const store = await SqliteSessionStore.openStartup(
     { dbPath },
     {
@@ -127,6 +131,7 @@ export async function openStartupZCodeProtocolSessionStore(
     event: "zcode_protocol.startup.sqlite_migration.started",
     stage: "migrate_session_db",
   });
+  await migrateLegacySessionDbIfNeeded(dbPath);
   const store = await SqliteSessionStore.openStartup({ dbPath });
   startupTimer.mark("Onyx Protocol SQLite migration completed", {
     context: { dbPath },
@@ -142,6 +147,40 @@ export function getSessionDbPath(configResult: ConfigResult, workingDirectory?: 
   if (workingDirectory && !isAbsolute(configured) && !configured.startsWith("~/"))
     return resolve(workingDirectory, configured);
   return resolvePath(configured);
+}
+
+/**
+ * Onyx 个人构建：v1.3180 及更早把 CLI 会话库写在 `~/.zcode/cli/db`，
+ * v1.4000 起 `DefaultConfig.storage.sessionDbPath` 改为 `~/.onyx/cli/db`。
+ * 首次启动且新位置缺库、旧位置有库时，连同 WAL/SHM 复制过来并做 quick_check 校验，
+ * 保证升级后旧会话仍可打开。校验失败则删除副本、退回全新库，不改动旧数据。
+ * 见 ONYX-CHANGES.md「合并记录：v4.0.0」。
+ */
+async function migrateLegacySessionDbIfNeeded(dbPath: string): Promise<void> {
+  if (existsSync(dbPath)) return;
+  const legacyDbPath = join(homedir(), ".zcode", "cli", "db", "db.sqlite");
+  if (!existsSync(legacyDbPath)) return;
+
+  const targets = [dbPath, `${dbPath}-wal`, `${dbPath}-shm`];
+  const sources = [legacyDbPath, `${legacyDbPath}-wal`, `${legacyDbPath}-shm`];
+  try {
+    await mkdir(dirname(dbPath), { recursive: true });
+    for (const [index, target] of targets.entries()) {
+      if (existsSync(sources[index]!)) await copyFile(sources[index]!, target);
+    }
+    const { DatabaseSync } = await import("node:sqlite");
+    const probe = new DatabaseSync(dbPath);
+    try {
+      const rows = probe.prepare("pragma quick_check").all() as Array<{ quick_check?: string }>;
+      const healthy = rows.every((row) => (row.quick_check ?? "ok") === "ok");
+      if (!healthy) throw new Error("quick_check reported corruption");
+    } finally {
+      probe.close();
+    }
+  } catch (error) {
+    await Promise.all(targets.map((target) => rm(target, { force: true }).catch(() => undefined)));
+    console.warn("[session-store] 迁移旧会话库失败，改用新库:", error);
+  }
 }
 
 function isPromiseLike<T>(value: T | Promise<T>): value is Promise<T> {
